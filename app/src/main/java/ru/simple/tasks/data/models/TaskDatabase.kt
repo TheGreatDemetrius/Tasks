@@ -5,6 +5,6 @@ import androidx.room.RoomDatabase
 import ru.simple.tasks.data.TaskDao
 
 @Database(entities = [SimpleTask::class], version = 1, exportSchema = false)
-abstract class TaskDatabase: RoomDatabase() {
-    abstract fun toDoDao():TaskDao
+abstract class TaskDatabase : RoomDatabase() {
+    abstract fun taskDao(): TaskDao
 }
