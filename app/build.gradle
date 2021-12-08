@@ -74,6 +74,6 @@ dependencies {
     implementation "androidx.datastore:datastore-preferences:1.0.0"
 
     //Dagger
-    implementation "com.google.dagger:hilt-android:$hilt_version"
+    implementation "com.google.dagger:hilt-android:$hilt_version"//для реализации шаблона Singleton для объектов базы данных
     kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
 }

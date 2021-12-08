@@ -6,7 +6,7 @@ import ru.simple.tasks.util.Constants.DATABASE_TABLE
 
 @Entity(tableName = DATABASE_TABLE)
 data class SimpleTask(
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey(autoGenerate = true)//autoincrement
     val id: Int = 0,
     val title: String,
     val description: String,
