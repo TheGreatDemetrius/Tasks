@@ -9,7 +9,7 @@ import ru.simple.tasks.util.Constants.LIST_ARGUMENT_KEY
 import ru.simple.tasks.util.Constants.LIST_SCREEN
 
 fun NavGraphBuilder.listComposable(
-    navigateToTaskScreen: (Int) -> Unit//параметр для определения состояния перехода к экрану конкретной задачи
+    navigateToTaskScreen: (taskId: Int) -> Unit//параметр для определения состояния перехода к экрану конкретной задачи
 ) {
     composable(
         route = LIST_SCREEN,

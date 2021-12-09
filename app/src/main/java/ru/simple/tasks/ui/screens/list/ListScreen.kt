@@ -2,6 +2,7 @@ package ru.simple.tasks.ui.screens.list
 
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -10,10 +11,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import ru.simple.tasks.R
+import ru.simple.tasks.ui.theme.fabBackgroundColor
 
 @Composable
-fun ListScreen(navigateToTaskScreen: (Int) -> Unit) {
+fun ListScreen(navigateToTaskScreen: (taskId: Int) -> Unit) {
     Scaffold(
+        topBar = { ListAppBar() },
         content = {},
         floatingActionButton = {
             ListFab(onFabClicked = navigateToTaskScreen)
@@ -22,10 +25,10 @@ fun ListScreen(navigateToTaskScreen: (Int) -> Unit) {
 }
 
 @Composable
-fun ListFab(onFabClicked: (Int) -> Unit) {
+fun ListFab(onFabClicked: (taskId: Int) -> Unit) {
     FloatingActionButton(onClick = {
         onFabClicked(-1)//предаем идентификатор задачи -1, т.к. при создании задачи идентификатор не нужен
-    }) {
+    }, backgroundColor = MaterialTheme.colors.fabBackgroundColor) {
         Icon(
             imageVector = Icons.Filled.Add,
             contentDescription = stringResource(id = R.string.add_button),
