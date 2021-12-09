@@ -4,6 +4,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import ru.simple.tasks.ui.screens.list.ListScreen
 import ru.simple.tasks.util.Constants.LIST_ARGUMENT_KEY
 import ru.simple.tasks.util.Constants.LIST_SCREEN
 
@@ -16,5 +17,7 @@ fun NavGraphBuilder.listComposable(
             type =
                 NavType.StringType//задаем строковой тип навигации, т.к. LIST_ARGUMENT_KEY является строкой
         })
-    ) {}
+    ) {
+        ListScreen(navigateToTaskScreen = navigateToTaskScreen)
+    }
 }

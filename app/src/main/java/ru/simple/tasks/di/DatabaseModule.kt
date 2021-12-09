@@ -1,4 +1,4 @@
-package ru.simple.tasks.dependency_injection
+package ru.simple.tasks.di
 
 import android.content.Context
 import androidx.room.Room
