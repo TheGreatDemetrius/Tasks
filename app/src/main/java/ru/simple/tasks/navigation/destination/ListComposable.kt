@@ -5,11 +5,13 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import ru.simple.tasks.ui.screens.list.ListScreen
+import ru.simple.tasks.ui.viewmodels.SharedViewModel
 import ru.simple.tasks.util.Constants.LIST_ARGUMENT_KEY
 import ru.simple.tasks.util.Constants.LIST_SCREEN
 
 fun NavGraphBuilder.listComposable(
-    navigateToTaskScreen: (taskId: Int) -> Unit//параметр для определения состояния перехода к экрану конкретной задачи
+    navigateToTaskScreen: (taskId: Int) -> Unit,//параметр для определения состояния перехода к экрану конкретной задачи
+    sharedViewModel: SharedViewModel
 ) {
     composable(
         route = LIST_SCREEN,
@@ -18,6 +20,9 @@ fun NavGraphBuilder.listComposable(
                 NavType.StringType//задаем строковой тип навигации, т.к. LIST_ARGUMENT_KEY является строкой
         })
     ) {
-        ListScreen(navigateToTaskScreen = navigateToTaskScreen)
+        ListScreen(
+            navigateToTaskScreen = navigateToTaskScreen,
+            sharedViewModel = sharedViewModel
+        )
     }
 }

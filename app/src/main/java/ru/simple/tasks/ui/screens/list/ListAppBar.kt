@@ -26,15 +26,42 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import ru.simple.tasks.components.PriorityItem
 import ru.simple.tasks.ui.theme.*
+import ru.simple.tasks.ui.viewmodels.SharedViewModel
+import ru.simple.tasks.util.SearchAppBarState
 
 @Composable
-fun ListAppBar() {
-    SearchAppBar(
-        text = "Search",
-        onTextChange = {},
-        onClosedClicked = {},
-        onSearchClicked = {}
-    )
+fun ListAppBar(
+    sharedViewModel: SharedViewModel,
+    searchAppBarState: SearchAppBarState,
+    searchTextState: String
+) {
+    when (searchAppBarState) {
+        SearchAppBarState.CLOSED -> {//строка поиска закрыта (т.е. не ищем)
+            DefaultListAppBar(
+                onSearchClicked = {
+                    sharedViewModel.searchAppBarState.value =
+                        SearchAppBarState.OPENED//открываем строку поиска
+                },
+                onSortClicked = {},
+                onDeleteClicked = {}
+            )
+        }
+        else -> {//строка поиска открыта (т.е. ищем)
+            SearchAppBar(
+                text = searchTextState,
+                onTextChange = { text ->
+                    sharedViewModel.searchTexState.value = text//обновляем текст в строке поиска
+                },
+                onClosedClicked = {
+                    //сбрасываем параметры
+                    sharedViewModel.searchAppBarState.value =
+                        SearchAppBarState.CLOSED
+                    sharedViewModel.searchTexState.value = ""
+                },
+                onSearchClicked = {}
+            )
+        }
+    }
 }
 
 @Composable
@@ -44,7 +71,7 @@ fun DefaultListAppBar(
     onDeleteClicked: () -> Unit
 ) {
     TopAppBar(
-        title = { Text(text = "Tasks", color = MaterialTheme.colors.topAppBarContentColor) },
+        title = { Text(text = stringResource(id = R.string.tasks), color = MaterialTheme.colors.topAppBarContentColor) },
         actions = {
             ListAppBarActions(
                 onSearchClicked = onSearchClicked,
@@ -164,6 +191,9 @@ fun SearchAppBar(
     onClosedClicked: () -> Unit,
     onSearchClicked: (String) -> Unit
 ) {
+    //var trailingIconState by remember {//запоминаем состояние, чтобы понимать удаляем текст в поисковой строке или закрываем ее
+     //   mutableStateOf(true)//по умолчанию удаляем текст из поисковой строки
+    //}
     Surface(
         modifier = Modifier
             .fillMaxWidth()
@@ -180,7 +210,7 @@ fun SearchAppBar(
             placeholder = {
                 Text(
                     modifier = Modifier.alpha(ContentAlpha.medium),//установили среднюю контрастность
-                    text = "Search",//TODO в строковые ресурсы
+                    text = stringResource(id = R.string.search),
                     color = Color.White
                 )
             },
@@ -196,16 +226,21 @@ fun SearchAppBar(
                 ) {
                     Icon(
                         imageVector = Icons.Filled.Search,
-                        contentDescription = "Search Icon",//TODO в строковые ресурсы
+                        contentDescription = stringResource(id = R.string.search_icon),
                         tint = MaterialTheme.colors.topAppBarContentColor
                     )
                 }
             },
             trailingIcon = {
-                IconButton(onClick = { onClosedClicked() }) {
+                IconButton(onClick = {
+                    if (text.isNotEmpty())
+                        onTextChange("")//при первом нажатии удаляем текст
+                    else
+                        onClosedClicked()
+                }) {
                     Icon(
                         imageVector = Icons.Default.Close,
-                        contentDescription = "Close Icon",
+                        contentDescription = stringResource(id = R.string.close_icon),
                         tint = MaterialTheme.colors.topAppBarContentColor
                     )
                 }

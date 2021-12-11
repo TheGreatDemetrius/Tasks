@@ -7,16 +7,29 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import ru.simple.tasks.R
 import ru.simple.tasks.ui.theme.fabBackgroundColor
+import ru.simple.tasks.ui.viewmodels.SharedViewModel
+import ru.simple.tasks.util.SearchAppBarState
 
 @Composable
-fun ListScreen(navigateToTaskScreen: (taskId: Int) -> Unit) {
+fun ListScreen(
+    navigateToTaskScreen: (taskId: Int) -> Unit,
+    sharedViewModel: SharedViewModel
+) {
+    //переменные searchAppBarState и searchTextString уведомят, если в классе SharedViewModel их значения изменятся
+    val searchAppBarState: SearchAppBarState by sharedViewModel.searchAppBarState
+    val searchTextString : String by sharedViewModel.searchTexState
+
     Scaffold(
-        topBar = { ListAppBar() },
+        topBar = { ListAppBar(
+            sharedViewModel = sharedViewModel,
+            searchAppBarState = searchAppBarState,
+            searchTextState = searchTextString
+        ) },
         content = {},
         floatingActionButton = {
             ListFab(onFabClicked = navigateToTaskScreen)
@@ -35,10 +48,4 @@ fun ListFab(onFabClicked: (taskId: Int) -> Unit) {
             tint = Color.White
         )
     }
-}
-
-@Composable
-@Preview
-private fun ListScreenPreview() {
-    ListScreen(navigateToTaskScreen = {})
 }
