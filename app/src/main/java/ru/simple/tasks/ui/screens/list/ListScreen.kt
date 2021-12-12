@@ -30,7 +30,9 @@ fun ListScreen(
             searchAppBarState = searchAppBarState,
             searchTextState = searchTextString
         ) },
-        content = {},
+        content = {
+            ListContent()
+        },
         floatingActionButton = {
             ListFab(onFabClicked = navigateToTaskScreen)
         }

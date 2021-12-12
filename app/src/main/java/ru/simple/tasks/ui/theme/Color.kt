@@ -18,14 +18,25 @@ val MediumPriorityColor = Color(0xFFFFC114)
 val HighPriorityColor = Color(0xFFFF4646)
 val NonePriorityColor = Color(0xFFFFFFFF)
 
-val Colors.fabBackgroundColor: Color//на основе нашей темы изменяем цвет плавающей кнопки
-@Composable
-get() = if(isLight) Teal200 else Purple700//т.е. если светлая тема, то вернем бирюзовый, иначе фиолетовый
+val Colors.taskItemTextColor: Color
+    @Composable
+    get() = if (isLight) DarkGray else LightGray
 
-val Colors.topAppBarContentColor: Color//на основе нашей темы изменяем цвет контента для TopAppBar, который находится в классе ListAppBar
-@Composable
-get() = if(isLight) Color.White else LightGray//т.е. если светлая тема, то вернем белый цвет, иначе светло-серый
+val Colors.taskItemBackgroundColor: Color
+    @Composable
+    get() = if (isLight) Color.White else DarkGray
 
-val Colors.topAppBarBackgroundColor: Color//на основе нашей темы изменяем цвет фона для TopAppBar, который находится в классе ListAppBar
-@Composable
-get() = if(isLight) Purple500 else DarkGray//т.е. если светлая тема, то вернем фиолетовый цвет, иначе темно-серый
+val Colors.fabBackgroundColor: Color
+    //на основе нашей темы изменяем цвет плавающей кнопки
+    @Composable
+    get() = if (isLight) Teal200 else Purple700//т.е. если светлая тема, то вернем бирюзовый, иначе фиолетовый
+
+val Colors.topAppBarContentColor: Color
+    //на основе нашей темы изменяем цвет контента для TopAppBar, который находится в классе ListAppBar
+    @Composable
+    get() = if (isLight) Color.White else LightGray//т.е. если светлая тема, то вернем белый цвет, иначе светло-серый
+
+val Colors.topAppBarBackgroundColor: Color
+    //на основе нашей темы изменяем цвет фона для TopAppBar, который находится в классе ListAppBar
+    @Composable
+    get() = if (isLight) Purple500 else DarkGray//т.е. если светлая тема, то вернем фиолетовый цвет, иначе темно-серый
