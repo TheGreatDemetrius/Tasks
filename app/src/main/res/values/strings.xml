@@ -14,4 +14,5 @@
     <string name="close_icon">Close icon</string>
     <string name="check">Check</string>
     <string name="tasks_completed">Tasks completed</string>
+    <string name="drop_down_arrow_icon">Drop-down arrow icon</string>
 </resources>
