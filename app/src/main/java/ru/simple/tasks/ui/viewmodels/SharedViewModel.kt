@@ -44,4 +44,15 @@ class SharedViewModel @Inject constructor(
             _allTasks.value = RequestState.Error(e)//переходим в состояние ошибки
         }
     }
+
+    private val _selectedTask: MutableStateFlow<SimpleTask?> = MutableStateFlow(value = null)
+    val selectedTask : StateFlow<SimpleTask?> = _selectedTask
+
+    fun getSelectedTask(taskId: Int) {
+        viewModelScope.launch {
+            repository.getSelectedTask(taskId = taskId).collect { task ->
+                _selectedTask.value = task
+            }
+        }
+    }
 }

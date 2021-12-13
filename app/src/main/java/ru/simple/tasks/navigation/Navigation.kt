@@ -31,7 +31,8 @@ fun SetupNavigation(
             sharedViewModel = sharedViewModel
         )
         taskComposable(
-            navigateToListScreen = screen.list//открываем из экрана конкретной задачи список задач
+            navigateToListScreen = screen.list,//открываем из экрана конкретной задачи список задач
+            sharedViewModel = sharedViewModel
         )
     }
 }

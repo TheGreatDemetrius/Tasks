@@ -19,8 +19,14 @@ import ru.simple.tasks.data.models.SimpleTask
 import ru.simple.tasks.ui.theme.topAppBarBackgroundColor
 
 @Composable
-fun TaskAppBar(navigateToListScreen: (Action) -> Unit) {
-    TaskItemAppBar(navigateToListScreen = navigateToListScreen)
+fun TaskAppBar(
+    selectedTask: SimpleTask?,
+    navigateToListScreen: (Action) -> Unit
+) {
+    if (selectedTask == null)//выбираем какой AppBar показывать
+        TaskItemAppBar(navigateToListScreen = navigateToListScreen)
+    else
+        ExistingTaskAppBar(selectedTask = selectedTask, navigateToListScreen = navigateToListScreen)
 }
 
 @Composable
