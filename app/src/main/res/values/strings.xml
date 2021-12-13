@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Tasks</string>
+    <string name="update_icon">Update icon</string>
+    <string name="delete_icon">Delete icon</string>
     <string name="add_task">Add task</string>
     <string name="back_arrow">Back arrow</string>
     <string name="add_button">Add button</string>

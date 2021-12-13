@@ -4,6 +4,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import ru.simple.tasks.ui.screens.task.TaskScreen
 import ru.simple.tasks.util.Action
 import ru.simple.tasks.util.Constants.TASK_ARGUMENT_KEY
 import ru.simple.tasks.util.Constants.TASK_SCREEN
@@ -19,5 +20,6 @@ fun NavGraphBuilder.taskComposable(
         })
     ) { navBackStackEntry ->
         //val taskId = navBackStackEntry.arguments!!.getInt(TASK_ARGUMENT_KEY)//передаем идетификатор
+        TaskScreen(navigateToListScreen = navigateToListScreen)
     }
 }
