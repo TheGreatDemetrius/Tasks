@@ -2,6 +2,8 @@ package ru.simple.tasks.ui.screens.list
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -17,10 +19,42 @@ import ru.simple.tasks.data.models.Priority
 import ru.simple.tasks.data.models.SimpleTask
 import ru.simple.tasks.ui.theme.*
 
+@ExperimentalMaterialApi
 @Composable
-fun ListContent() {
-
+fun ListContent(
+    tasks: List<SimpleTask>,
+    navigateToTaskScreen: (taskId: Int) -> Unit
+) {
+    if (tasks.isEmpty())
+        EmptyContent()
+    else
+        DisplayTasks(
+            tasks = tasks,
+            navigateToTaskScreen = navigateToTaskScreen
+        )
 }
+
+@ExperimentalMaterialApi
+@Composable
+fun DisplayTasks(
+    tasks: List<SimpleTask>,
+    navigateToTaskScreen: (taskId: Int) -> Unit
+) {
+    LazyColumn {
+        items(
+            items = tasks,//список данных
+            key = { task ->//фабрика стабильных и уникальных ключей, представляющих предмет
+                task.id//т.е. выдаем уникальные идентификаторы для каждого элемента списка
+            }
+        ) { task ->
+            TaskItem(
+                simpleTask = task,
+                navigateToTaskScreen = navigateToTaskScreen
+            )
+        }
+    }
+}
+
 
 @ExperimentalMaterialApi
 @Composable
@@ -58,13 +92,7 @@ fun TaskItem(
                         .weight(1f),
                     contentAlignment = Alignment.TopEnd
                 ) {
-                    Canvas(
-                        modifier = Modifier
-                            .size(PRIORITY_INDICATOR_SIZE)
-                            .height(
-                                PRIORITY_INDICATOR_SIZE
-                            )
-                    )
+                    Canvas(modifier = Modifier.size(PRIORITY_INDICATOR_SIZE))
                     {
                         drawCircle(
                             color = simpleTask.priority.color

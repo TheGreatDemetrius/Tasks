@@ -8,4 +8,6 @@
     <string name="search">Search</string>
     <string name="search_icon">Search Icon</string>
     <string name="close_icon">Close Icon</string>
+    <string name="check">Check</string>
+    <string name="tasks_completed">Tasks completed</string>
 </resources>

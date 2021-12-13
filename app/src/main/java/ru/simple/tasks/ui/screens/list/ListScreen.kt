@@ -1,12 +1,11 @@
 package ru.simple.tasks.ui.screens.list
 
-import androidx.compose.material.FloatingActionButton
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -15,12 +14,18 @@ import ru.simple.tasks.ui.theme.fabBackgroundColor
 import ru.simple.tasks.ui.viewmodels.SharedViewModel
 import ru.simple.tasks.util.SearchAppBarState
 
+@ExperimentalMaterialApi
 @Composable
 fun ListScreen(
     navigateToTaskScreen: (taskId: Int) -> Unit,
     sharedViewModel: SharedViewModel
 ) {
-    //переменные searchAppBarState и searchTextString уведомят, если в классе SharedViewModel их значения изменятся
+    LaunchedEffect(key1 = true){
+        //запускаем сопрограмму, которая будет следить за состоянием пременной (коллекции)
+        sharedViewModel.getAllTasks()
+    }
+    //переменные allTasks, searchAppBarState и searchTextString уведомят, если в классе SharedViewModel их значения изменятся
+    val allTasks by sharedViewModel.allTasks.collectAsState()//collectAsState() будет наблюдать за потоком из составной функции
     val searchAppBarState: SearchAppBarState by sharedViewModel.searchAppBarState
     val searchTextString : String by sharedViewModel.searchTexState
 
@@ -31,7 +36,10 @@ fun ListScreen(
             searchTextState = searchTextString
         ) },
         content = {
-            ListContent()
+            ListContent(
+                tasks = allTasks,
+                navigateToTaskScreen = navigateToTaskScreen
+            )
         },
         floatingActionButton = {
             ListFab(onFabClicked = navigateToTaskScreen)

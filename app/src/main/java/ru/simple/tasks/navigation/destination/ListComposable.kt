@@ -1,5 +1,6 @@
 package ru.simple.tasks.navigation.destination
 
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
@@ -9,6 +10,7 @@ import ru.simple.tasks.ui.viewmodels.SharedViewModel
 import ru.simple.tasks.util.Constants.LIST_ARGUMENT_KEY
 import ru.simple.tasks.util.Constants.LIST_SCREEN
 
+@ExperimentalMaterialApi
 fun NavGraphBuilder.listComposable(
     navigateToTaskScreen: (taskId: Int) -> Unit,//параметр для определения состояния перехода к экрану конкретной задачи
     sharedViewModel: SharedViewModel
