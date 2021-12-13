@@ -1,13 +1,15 @@
 <resources>
     <string name="app_name">Tasks</string>
+    <string name="add_task">Add task</string>
+    <string name="back_arrow">Back arrow</string>
     <string name="add_button">Add button</string>
-    <string name="search_tasks">Search Tasks</string>
-    <string name="sort_tasks">Sort Tasks</string>
-    <string name="delete_all_action">Delete All</string>
+    <string name="search_task">Search task</string>
+    <string name="sort_tasks">Sort tasks</string>
+    <string name="delete_all_action">Delete all</string>
     <string name="tasks">Tasks</string>
     <string name="search">Search</string>
-    <string name="search_icon">Search Icon</string>
-    <string name="close_icon">Close Icon</string>
+    <string name="search_icon">Search icon</string>
+    <string name="close_icon">Close icon</string>
     <string name="check">Check</string>
     <string name="tasks_completed">Tasks completed</string>
 </resources>

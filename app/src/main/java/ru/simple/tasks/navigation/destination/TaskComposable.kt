@@ -17,5 +17,7 @@ fun NavGraphBuilder.taskComposable(
             type =
                 NavType.IntType//задаем целочисленный тип навигации, т.к. TASK_ARGUMENT_KEY является числом
         })
-    ) {}
+    ) { navBackStackEntry ->
+        //val taskId = navBackStackEntry.arguments!!.getInt(TASK_ARGUMENT_KEY)//передаем идетификатор
+    }
 }

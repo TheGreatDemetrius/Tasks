@@ -18,20 +18,23 @@ import androidx.compose.ui.tooling.preview.Preview
 import ru.simple.tasks.data.models.Priority
 import ru.simple.tasks.data.models.SimpleTask
 import ru.simple.tasks.ui.theme.*
+import ru.simple.tasks.util.RequestState
 
 @ExperimentalMaterialApi
 @Composable
 fun ListContent(
-    tasks: List<SimpleTask>,
+    tasks: RequestState<List<SimpleTask>>,
     navigateToTaskScreen: (taskId: Int) -> Unit
 ) {
-    if (tasks.isEmpty())
-        EmptyContent()
-    else
-        DisplayTasks(
-            tasks = tasks,
-            navigateToTaskScreen = navigateToTaskScreen
-        )
+    if(tasks is RequestState.Success){
+        if (tasks.data.isEmpty())
+            EmptyContent()
+        else
+            DisplayTasks(
+                tasks = tasks.data,
+                navigateToTaskScreen = navigateToTaskScreen
+            )
+    }
 }
 
 @ExperimentalMaterialApi

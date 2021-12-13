@@ -101,7 +101,7 @@ fun SearchAction(
     IconButton(onClick = { onSearchClicked() }) {
         Icon(
             imageVector = Icons.Filled.Search,
-            contentDescription = stringResource(id = R.string.search_tasks),
+            contentDescription = stringResource(id = R.string.search_task),
             tint = MaterialTheme.colors.topAppBarContentColor
         )
     }
