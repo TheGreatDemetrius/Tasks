@@ -22,7 +22,8 @@ fun ListScreen(
 ) {
     LaunchedEffect(key1 = true){
         //запускаем сопрограмму, которая будет следить за состоянием пременной (коллекции)
-        sharedViewModel.getAllTasks()
+        sharedViewModel.getAllTasks()//например, при повороте экрана нам не надо заново получать все задачи
+        //мы получаем задачи только когда меняется ключ
     }
     //переменные allTasks, searchAppBarState и searchTextString уведомят, если в классе SharedViewModel их значения изменятся
     val allTasks by sharedViewModel.allTasks.collectAsState()//collectAsState() будет наблюдать за потоком из составной функции

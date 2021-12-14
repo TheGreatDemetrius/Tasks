@@ -24,9 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.simple.tasks.ui.theme.PRIORITY_DROP_DOWN_HEIGHT
 import ru.simple.tasks.ui.theme.PRIORITY_INDICATOR_SIZE
-import ru.simple.tasks.ui.theme.taskItemBackgroundColor
 import ru.simple.tasks.R
-import ru.simple.tasks.ui.theme.taskItemTextColor
 
 @Composable
 fun PriorityDropDown(

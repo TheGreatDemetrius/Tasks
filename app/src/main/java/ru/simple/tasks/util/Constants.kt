@@ -7,4 +7,5 @@ object Constants {
     const val TASK_SCREEN = "task/{taskId}"
     const val LIST_ARGUMENT_KEY = "action"
     const val TASK_ARGUMENT_KEY = "taskId"
+    Added header length limitation    const val MAX_TITLE_LENGTH = 64
 }

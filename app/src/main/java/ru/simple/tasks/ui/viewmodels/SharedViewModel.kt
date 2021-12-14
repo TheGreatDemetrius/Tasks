@@ -12,6 +12,7 @@ import kotlinx.coroutines.launch
 import ru.simple.tasks.data.models.Priority
 import ru.simple.tasks.data.models.SimpleTask
 import ru.simple.tasks.data.repositories.TaskRepository
+import ru.simple.tasks.util.Constants.MAX_TITLE_LENGTH
 import ru.simple.tasks.util.RequestState
 import ru.simple.tasks.util.SearchAppBarState
 import java.lang.Exception
@@ -74,5 +75,10 @@ class SharedViewModel @Inject constructor(
             description.value = ""
             priority.value = Priority.LOW
         }
+    }
+
+    fun updateTitle(upTitle: String) {
+        if (upTitle.length < MAX_TITLE_LENGTH)//проверяем количество символов в заголовоке
+            title.value = upTitle
     }
 }
