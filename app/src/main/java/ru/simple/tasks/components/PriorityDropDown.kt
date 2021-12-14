@@ -2,6 +2,7 @@ package ru.simple.tasks.components
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -25,6 +26,7 @@ import ru.simple.tasks.ui.theme.PRIORITY_DROP_DOWN_HEIGHT
 import ru.simple.tasks.ui.theme.PRIORITY_INDICATOR_SIZE
 import ru.simple.tasks.ui.theme.taskItemBackgroundColor
 import ru.simple.tasks.R
+import ru.simple.tasks.ui.theme.taskItemTextColor
 
 @Composable
 fun PriorityDropDown(
@@ -39,14 +41,16 @@ fun PriorityDropDown(
     )
 
     Row(modifier = Modifier
-        .fillMaxWidth()
+        .fillMaxWidth(fraction = 0.94f)
+        .background(color = MaterialTheme.colors.background)
         .height(PRIORITY_DROP_DOWN_HEIGHT)
         .clickable {
             expended = true
         }
         .border(
             width = 1.dp,
-            color = MaterialTheme.colors.taskItemBackgroundColor
+            color = MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.disabled),
+            shape = MaterialTheme.shapes.small
         ),
         verticalAlignment = Alignment.CenterVertically
     ) {
