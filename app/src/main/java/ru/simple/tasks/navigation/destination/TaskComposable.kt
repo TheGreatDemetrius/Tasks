@@ -1,5 +1,6 @@
 package ru.simple.tasks.navigation.destination
 
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.navigation.NavGraphBuilder
@@ -19,14 +20,22 @@ fun NavGraphBuilder.taskComposable(
     composable(
         route = TASK_SCREEN,
         arguments = listOf(navArgument(TASK_ARGUMENT_KEY) {
-            type = NavType.IntType//задаем целочисленный тип навигации, т.к. TASK_ARGUMENT_KEY является числом
+            type =
+                NavType.IntType//задаем целочисленный тип навигации, т.к. TASK_ARGUMENT_KEY является числом
         })
     ) { navBackStackEntry ->
-        val taskId = navBackStackEntry.arguments!!.getInt(TASK_ARGUMENT_KEY)//передаем идетификатор (не null, т.к. id имеет свойство autoincrement)
+        val taskId =
+            navBackStackEntry.arguments!!.getInt(TASK_ARGUMENT_KEY)//передаем идетификатор (не null, т.к. id имеет свойство autoincrement)
         sharedViewModel.getSelectedTask(taskId = taskId)
         val selectedTask by sharedViewModel.selectedTask.collectAsState()
+
+        LaunchedEffect(key1 = taskId) {//загружаем данные задачи, которую выбрали
+            sharedViewModel.updateTaskFields(selectedTask = selectedTask)
+        }//TODO исправить выгрузгу и загрузку данных
+
         TaskScreen(
             selectedTask = selectedTask,
+            sharedViewModel = sharedViewModel,
             navigateToListScreen = navigateToListScreen
         )
     }

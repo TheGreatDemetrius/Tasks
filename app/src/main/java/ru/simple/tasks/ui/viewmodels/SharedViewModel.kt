@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import ru.simple.tasks.data.models.Priority
 import ru.simple.tasks.data.models.SimpleTask
 import ru.simple.tasks.data.repositories.TaskRepository
 import ru.simple.tasks.util.RequestState
@@ -20,6 +21,11 @@ import javax.inject.Inject
 class SharedViewModel @Inject constructor(
     private val repository: TaskRepository
 ) : ViewModel() {
+
+    val id: MutableState<Int> = mutableStateOf(0)
+    val title: MutableState<String> = mutableStateOf("")
+    val description: MutableState<String> = mutableStateOf("")
+    val priority: MutableState<Priority> = mutableStateOf(Priority.LOW)
 
     val searchAppBarState: MutableState<SearchAppBarState> =
         mutableStateOf(SearchAppBarState.CLOSED)//указываем, что по умолчанию поисковая строка будет закрыта
@@ -46,13 +52,27 @@ class SharedViewModel @Inject constructor(
     }
 
     private val _selectedTask: MutableStateFlow<SimpleTask?> = MutableStateFlow(value = null)
-    val selectedTask : StateFlow<SimpleTask?> = _selectedTask
+    val selectedTask: StateFlow<SimpleTask?> = _selectedTask
 
     fun getSelectedTask(taskId: Int) {
         viewModelScope.launch {
             repository.getSelectedTask(taskId = taskId).collect { task ->
                 _selectedTask.value = task
             }
+        }
+    }
+
+    fun updateTaskFields(selectedTask: SimpleTask?) {
+        if (selectedTask != null) {//если нажали на конкретную задачу
+            id.value = selectedTask.id
+            title.value = selectedTask.title
+            description.value = selectedTask.description
+            priority.value = selectedTask.priority
+        } else {//если добавляем новую задачу
+            id.value = 0
+            title.value = ""
+            description.value = ""
+            priority.value = Priority.LOW
         }
     }
 }

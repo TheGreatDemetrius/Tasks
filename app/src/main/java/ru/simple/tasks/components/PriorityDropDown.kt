@@ -41,7 +41,6 @@ fun PriorityDropDown(
     )
 
     Row(modifier = Modifier
-        .fillMaxWidth(fraction = 0.94f)
         .background(color = MaterialTheme.colors.background)
         .height(PRIORITY_DROP_DOWN_HEIGHT)
         .clickable {
@@ -79,7 +78,7 @@ fun PriorityDropDown(
             )
         }
         DropdownMenu(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(fraction = 0.94f),
             expanded = expended,
             onDismissRequest = { expended = false }
         ) {
