@@ -1,5 +1,6 @@
 package ru.simple.tasks.navigation.destination
 
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.navigation.NavGraphBuilder
@@ -28,13 +29,9 @@ fun NavGraphBuilder.taskComposable(
         sharedViewModel.getSelectedTask(taskId = taskId)
         val selectedTask by sharedViewModel.selectedTask.collectAsState()
 
-        //При LaunchedEffect входе в композицию запускается сопрограмма с блоком кода, переданным в качестве параметра.
-        //Сопрограмма будет отменена, если LaunchedEffect выйдет из композиции.
-        //Если LaunchedEffect перекомпонован с другими ключами, существующая сопрограмма будет отменена,
-        //а новая функция приостановки будет запущена в новой сопрограмме.
-        //LaunchedEffect(key1 = taskId) {//загружаем данные для задачи, которую выбрали
-        sharedViewModel.updateTaskFields(selectedTask = selectedTask)
-        //}
+        LaunchedEffect(key1 = selectedTask) {//загружаем данные для задачи, которую выбрали
+            sharedViewModel.updateTaskFields(selectedTask = selectedTask)
+        }
 
         TaskScreen(
             selectedTask = selectedTask,
