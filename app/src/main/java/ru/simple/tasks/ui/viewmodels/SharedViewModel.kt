@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
@@ -12,6 +13,7 @@ import kotlinx.coroutines.launch
 import ru.simple.tasks.data.models.Priority
 import ru.simple.tasks.data.models.SimpleTask
 import ru.simple.tasks.data.repositories.TaskRepository
+import ru.simple.tasks.util.Action
 import ru.simple.tasks.util.Constants.MAX_TITLE_LENGTH
 import ru.simple.tasks.util.RequestState
 import ru.simple.tasks.util.SearchAppBarState
@@ -22,6 +24,8 @@ import javax.inject.Inject
 class SharedViewModel @Inject constructor(
     private val repository: TaskRepository
 ) : ViewModel() {
+
+    val action: MutableState<Action> = mutableStateOf(Action.NO_ACTION)
 
     val id: MutableState<Int> = mutableStateOf(0)
     val title: MutableState<String> = mutableStateOf("")
@@ -61,6 +65,29 @@ class SharedViewModel @Inject constructor(
                 _selectedTask.value = task
             }
         }
+    }
+
+    private fun addTask() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val simpleTask = SimpleTask(
+                title = title.value,
+                description = description.value,
+                priority = priority.value
+            )
+            repository.addTask(simpleTask = simpleTask)
+        }
+    }
+
+    fun handleDatabaseActions(action: Action) {//выполняем полученное действие
+        when (action) {
+            Action.ADD -> addTask()
+            Action.UPDATE -> addTask()
+            Action.DELETE -> addTask()
+            Action.DELETE_ALL -> addTask()
+            Action.UNDO -> addTask()
+            else -> {}//если нажали кнопку назад (т.е. Action.NO_ACTION)
+        }
+        this.action.value = Action.NO_ACTION//устанавливаем значение по умолчанию
     }
 
     fun updateTaskFields(selectedTask: SimpleTask?) {

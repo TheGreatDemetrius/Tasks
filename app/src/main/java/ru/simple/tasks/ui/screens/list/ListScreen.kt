@@ -20,22 +20,28 @@ fun ListScreen(
     navigateToTaskScreen: (taskId: Int) -> Unit,
     sharedViewModel: SharedViewModel
 ) {
-    LaunchedEffect(key1 = true){
+    LaunchedEffect(key1 = true) {
         //запускаем сопрограмму, которая будет следить за состоянием пременной (коллекции)
         sharedViewModel.getAllTasks()//например, при повороте экрана нам не надо заново получать все задачи
         //мы получаем задачи только когда меняется ключ
     }
-    //переменные allTasks, searchAppBarState и searchTextString уведомят, если в классе SharedViewModel их значения изменятся
+
+    //переменные уведомят, если в классе SharedViewModel их значения изменятся
+    val action by sharedViewModel.action
     val allTasks by sharedViewModel.allTasks.collectAsState()//collectAsState() будет наблюдать за потоком из составной функции
     val searchAppBarState: SearchAppBarState by sharedViewModel.searchAppBarState
-    val searchTextString : String by sharedViewModel.searchTexState
+    val searchTextString: String by sharedViewModel.searchTexState
+
+    sharedViewModel.handleDatabaseActions(action = action)//вызываем функцию, которая будет выполнять действия
 
     Scaffold(
-        topBar = { ListAppBar(
-            sharedViewModel = sharedViewModel,
-            searchAppBarState = searchAppBarState,
-            searchTextState = searchTextString
-        ) },
+        topBar = {
+            ListAppBar(
+                sharedViewModel = sharedViewModel,
+                searchAppBarState = searchAppBarState,
+                searchTextState = searchTextString
+            )
+        },
         content = {
             ListContent(
                 tasks = allTasks,

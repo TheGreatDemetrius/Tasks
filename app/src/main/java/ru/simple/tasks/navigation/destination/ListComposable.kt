@@ -1,6 +1,7 @@
 package ru.simple.tasks.navigation.destination
 
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
@@ -9,6 +10,7 @@ import ru.simple.tasks.ui.screens.list.ListScreen
 import ru.simple.tasks.ui.viewmodels.SharedViewModel
 import ru.simple.tasks.util.Constants.LIST_ARGUMENT_KEY
 import ru.simple.tasks.util.Constants.LIST_SCREEN
+import ru.simple.tasks.util.toAction
 
 @ExperimentalMaterialApi
 fun NavGraphBuilder.listComposable(
@@ -21,7 +23,15 @@ fun NavGraphBuilder.listComposable(
             type =
                 NavType.StringType//задаем строковой тип навигации, т.к. LIST_ARGUMENT_KEY является строкой
         })
-    ) {
+    ) { navBackStackEntry ->
+        //LIST_ARGUMENT_KEY переводим в формат действия
+        val action = navBackStackEntry.arguments?.getString(LIST_ARGUMENT_KEY).toAction()
+
+        //когда action меняет свое сотояние (т.е. нажимаем на одну из кнопок действия), тогда изменяем значение переменной action в классе SharedViewModel
+        LaunchedEffect(key1 = action) {
+            sharedViewModel.action.value = action
+        }
+
         ListScreen(
             navigateToTaskScreen = navigateToTaskScreen,
             sharedViewModel = sharedViewModel
