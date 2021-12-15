@@ -30,7 +30,8 @@ fun NavGraphBuilder.taskComposable(
         val selectedTask by sharedViewModel.selectedTask.collectAsState()
 
         LaunchedEffect(key1 = selectedTask) {//загружаем данные для задачи, которую выбрали
-            sharedViewModel.updateTaskFields(selectedTask = selectedTask)
+            if (selectedTask != null || taskId == -1)//если это новая задача или задача не восстановленная после удаления
+                sharedViewModel.updateTaskFields(selectedTask = selectedTask)
         }
 
         TaskScreen(
