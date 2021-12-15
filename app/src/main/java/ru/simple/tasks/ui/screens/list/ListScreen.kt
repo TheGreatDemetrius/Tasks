@@ -3,15 +3,14 @@ package ru.simple.tasks.ui.screens.list
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import kotlinx.coroutines.launch
 import ru.simple.tasks.R
 import ru.simple.tasks.ui.theme.fabBackgroundColor
 import ru.simple.tasks.ui.viewmodels.SharedViewModel
+import ru.simple.tasks.util.Action
 import ru.simple.tasks.util.SearchAppBarState
 
 @ExperimentalMaterialApi
@@ -32,9 +31,19 @@ fun ListScreen(
     val searchAppBarState: SearchAppBarState by sharedViewModel.searchAppBarState
     val searchTextString: String by sharedViewModel.searchTexState
 
-    sharedViewModel.handleDatabaseActions(action = action)//вызываем функцию, которая будет выполнять действия
+    val scaffoldState = rememberScaffoldState()
+
+    ShowSnackbar(
+        scaffoldState = scaffoldState,
+        taskTitle = sharedViewModel.title.value,
+        action = action
+    ) {
+        sharedViewModel.handleDatabaseActions(action = action)//вызываем функцию, которая будет выполнять действия
+    }
+
 
     Scaffold(
+        scaffoldState = scaffoldState,
         topBar = {
             ListAppBar(
                 sharedViewModel = sharedViewModel,
@@ -64,5 +73,26 @@ fun ListFab(onFabClicked: (taskId: Int) -> Unit) {
             contentDescription = stringResource(id = R.string.add_button),
             tint = Color.White
         )
+    }
+}
+
+@Composable
+fun ShowSnackbar(
+    scaffoldState: ScaffoldState,
+    taskTitle: String,
+    action: Action,
+    handleDatabaseActions: () -> Unit
+) {
+    handleDatabaseActions()
+    val scope = rememberCoroutineScope()
+    val actionLabel = stringResource(id = R.string.ok)
+    LaunchedEffect(key1 = action) {
+        if (action != Action.NO_ACTION)//вызываем Snackbar после нажатия любого действия, кроме NO_ACTION
+            scope.launch {
+                val snackBarResult = scaffoldState.snackbarHostState.showSnackbar(//TODO snackBarResult
+                    message = "${action.name}: $taskTitle",
+                    actionLabel = actionLabel
+                )
+            }
     }
 }

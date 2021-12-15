@@ -85,7 +85,7 @@ class SharedViewModel @Inject constructor(
             Action.DELETE -> addTask()
             Action.DELETE_ALL -> addTask()
             Action.UNDO -> addTask()
-            else -> {}//если нажали кнопку назад (т.е. Action.NO_ACTION)
+            else -> {}//если нажали кнопку назад (т.е. NO_ACTION)
         }
         this.action.value = Action.NO_ACTION//устанавливаем значение по умолчанию
     }
