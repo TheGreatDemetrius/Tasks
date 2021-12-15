@@ -90,11 +90,23 @@ class SharedViewModel @Inject constructor(
         }
     }
 
+    private fun deleteTask() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val simpleTask = SimpleTask(
+                id = id.value,//удаляем по идентификатору
+                title = title.value,
+                description = description.value,
+                priority = priority.value
+            )
+            repository.deleteTask(simpleTask = simpleTask)
+        }
+    }
+
     fun handleDatabaseActions(action: Action) {//выполняем полученное действие
         when (action) {
             Action.ADD -> addTask()
             Action.UPDATE -> updateTask()
-            Action.DELETE -> addTask()
+            Action.DELETE -> deleteTask()
             Action.DELETE_ALL -> addTask()
             Action.UNDO -> addTask()
             else -> {}//если нажали кнопку назад (т.е. NO_ACTION)
