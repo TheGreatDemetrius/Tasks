@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ru.simple.tasks.data.models.Priority
 import ru.simple.tasks.data.models.SimpleTask
+import ru.simple.tasks.data.repositories.DataStoreRepository
 import ru.simple.tasks.data.repositories.TaskRepository
 import ru.simple.tasks.util.Action
 import ru.simple.tasks.util.Constants.MAX_TITLE_LENGTH
@@ -23,7 +24,8 @@ import javax.inject.Inject
 
 @HiltViewModel//необходимо для внедрения ViewModel
 class SharedViewModel @Inject constructor(
-    private val repository: TaskRepository
+    private val repository: TaskRepository,
+    private val dataStoreRepository: DataStoreRepository
 ) : ViewModel() {
 
     val action: MutableState<Action> = mutableStateOf(Action.NO_ACTION)
