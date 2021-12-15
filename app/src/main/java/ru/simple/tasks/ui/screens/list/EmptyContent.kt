@@ -27,12 +27,12 @@ fun EmptyContent() {
     ) {
         Icon(
             modifier = Modifier.size(120.dp),
-            painter = painterResource(id = R.drawable.ic_check),
+            painter = painterResource(id = R.drawable.ic_add_task),
             contentDescription = stringResource(id = R.string.check),
             tint = MediumGray
         )
         Text(
-            text = stringResource(id = R.string.tasks_completed),
+            text = stringResource(id = R.string.add_new_tasks),
             color = MediumGray,
             fontWeight = FontWeight.Bold,
             fontSize = MaterialTheme.typography.h6.fontSize

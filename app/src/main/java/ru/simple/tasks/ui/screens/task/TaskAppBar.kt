@@ -7,16 +7,20 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.room.Delete
 import ru.simple.tasks.ui.theme.topAppBarContentColor
 import ru.simple.tasks.util.Action
 import ru.simple.tasks.R
 import ru.simple.tasks.data.models.Priority
 import ru.simple.tasks.data.models.SimpleTask
 import ru.simple.tasks.ui.theme.topAppBarBackgroundColor
+import ru.simple.tasks.components.AlertDialog
 
 @Composable
 fun TaskAppBar(
@@ -68,7 +72,7 @@ fun BackAction(//нажали вернуться назад
 }
 
 @Composable
-fun ExistingTaskAppBar(//открыли существующую задачу
+fun ExistingTaskAppBar(//TaskAppBar для существующей задачи
     selectedTask: SimpleTask,
     navigateToListScreen: (Action) -> Unit
 ) {
@@ -84,12 +88,13 @@ fun ExistingTaskAppBar(//открыли существующую задачу
         },
         backgroundColor = MaterialTheme.colors.topAppBarBackgroundColor,
         actions = {
-            DeleteAction(onDeleteClicked = navigateToListScreen)
-            UpdateAction(onUpdateClicked = navigateToListScreen)
+            ExistingTaskAppBarActions(
+                selectedTask = selectedTask,
+                navigateToListScreen = navigateToListScreen
+            )
         }
     )
 }
-
 
 @Composable
 fun CloseAction(//нажали закрыть задачу
@@ -106,13 +111,35 @@ fun CloseAction(//нажали закрыть задачу
     }
 }
 
+@Composable
+fun ExistingTaskAppBarActions(
+    selectedTask: SimpleTask,
+    navigateToListScreen: (Action) -> Unit
+) {
+    var openDialog by remember { mutableStateOf(false) }
+    AlertDialog(
+        title = stringResource(id = R.string.delete_task, selectedTask.title),
+        message = stringResource(id = R.string.delete_task_confirmation, selectedTask.title),
+        openDialog = openDialog,
+        closeDialog = {
+            openDialog = false
+        },
+        confirm = {
+            navigateToListScreen(Action.DELETE)
+        }
+    )
+    DeleteAction(onDeleteClicked = {
+        openDialog = true
+    })
+    UpdateAction(onUpdateClicked = navigateToListScreen)
+}
 
 @Composable
-fun DeleteAction(//нажали акрыть задачу
-    onDeleteClicked: (Action) -> Unit
+fun DeleteAction(//нажали удалить задачу
+    onDeleteClicked: () -> Unit
 ) {
     IconButton(onClick = {
-        onDeleteClicked(Action.DELETE)
+        onDeleteClicked()
     }) {
         Icon(
             imageVector = Icons.Filled.Delete,
@@ -123,7 +150,7 @@ fun DeleteAction(//нажали акрыть задачу
 }
 
 @Composable
-fun UpdateAction(//нажали акрыть задачу
+fun UpdateAction(//нажали обновить задачу
     onUpdateClicked: (Action) -> Unit
 ) {
     IconButton(onClick = {

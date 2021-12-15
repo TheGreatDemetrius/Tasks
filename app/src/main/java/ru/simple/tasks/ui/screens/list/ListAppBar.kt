@@ -2,7 +2,6 @@ package ru.simple.tasks.ui.screens.list
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
@@ -29,6 +28,7 @@ import ru.simple.tasks.ui.theme.*
 import ru.simple.tasks.ui.viewmodels.SharedViewModel
 import ru.simple.tasks.util.Action
 import ru.simple.tasks.util.SearchAppBarState
+import ru.simple.tasks.components.AlertDialog
 
 @Composable
 fun ListAppBar(
@@ -44,7 +44,7 @@ fun ListAppBar(
                         SearchAppBarState.OPENED//открываем строку поиска
                 },
                 onSortClicked = {},
-                onDeleteAllClicked = {
+                onDeleteAllConfirmed = {
                     sharedViewModel.action.value = Action.DELETE_ALL
                 }
             )
@@ -73,15 +73,20 @@ fun ListAppBar(
 fun DefaultListAppBar(
     onSearchClicked: () -> Unit,
     onSortClicked: (Priority) -> Unit,
-    onDeleteAllClicked: () -> Unit
+    onDeleteAllConfirmed: () -> Unit
 ) {
     TopAppBar(
-        title = { Text(text = stringResource(id = R.string.tasks), color = MaterialTheme.colors.topAppBarContentColor) },
+        title = {
+            Text(
+                text = stringResource(id = R.string.tasks),
+                color = MaterialTheme.colors.topAppBarContentColor
+            )
+        },
         actions = {
             ListAppBarActions(
                 onSearchClicked = onSearchClicked,
                 onSortClicked = onSortClicked,
-                onDeleteAllClicked = onDeleteAllClicked
+                onDeleteAllConfirmed = onDeleteAllConfirmed
             )
         },
         backgroundColor = MaterialTheme.colors.topAppBarBackgroundColor
@@ -92,11 +97,23 @@ fun DefaultListAppBar(
 fun ListAppBarActions(
     onSearchClicked: () -> Unit,
     onSortClicked: (Priority) -> Unit,
-    onDeleteAllClicked: () -> Unit
+    onDeleteAllConfirmed: () -> Unit
 ) {
+    var openDialog by remember {
+        mutableStateOf(false)
+    }
+    AlertDialog(
+        title = stringResource(id = R.string.delete_all_task),
+        message = stringResource(id = R.string.delete_all_task_confirmation),
+        openDialog = openDialog,
+        closeDialog = { openDialog = false },
+        confirm = {
+            onDeleteAllConfirmed()
+        }
+    )
     SearchAction(onSearchClicked = onSearchClicked)
     SortAction(onSortClicked = onSortClicked)
-    DeleteAllAction(onDeleteAllClicked = onDeleteAllClicked)
+    DeleteAllAction(onDeleteAllConfirmed = { openDialog = true })
 }
 
 @Composable
@@ -156,9 +173,9 @@ fun SortAction(
 
 @Composable
 fun DeleteAllAction(
-    onDeleteAllClicked: () -> Unit
+    onDeleteAllConfirmed: () -> Unit
 ) {
-    IconButton(onClick = { onDeleteAllClicked() }) {
+    IconButton(onClick = { onDeleteAllConfirmed() }) {
         Icon(
             //для добавления всех материальных иконок используйте implementation "androidx.compose.material:material-icons-extended:$compose_version"
             //но Google не рекомедует так делать, т.к. библиотека много весит
@@ -251,7 +268,7 @@ fun DefaultListAppBarPreview() {
     DefaultListAppBar(
         onSearchClicked = {},
         onSortClicked = {},
-        onDeleteAllClicked = {}
+        onDeleteAllConfirmed = {}
     )
 }
 
