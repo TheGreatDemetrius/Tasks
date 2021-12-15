@@ -19,33 +19,61 @@ import ru.simple.tasks.data.models.Priority
 import ru.simple.tasks.data.models.SimpleTask
 import ru.simple.tasks.ui.theme.*
 import ru.simple.tasks.util.RequestState
+import ru.simple.tasks.util.SearchAppBarState
 
 @ExperimentalMaterialApi
 @Composable
 fun ListContent(
-    tasks: RequestState<List<SimpleTask>>,
+    allTasks: RequestState<List<SimpleTask>>,
+    searchedTasks: RequestState<List<SimpleTask>>,
+    searchAppBarState: SearchAppBarState,
     navigateToTaskScreen: (taskId: Int) -> Unit
 ) {
-    if(tasks is RequestState.Success){
-        if (tasks.data.isEmpty())
-            EmptyContent()
-        else
-            DisplayTasks(
-                tasks = tasks.data,
+    if (searchAppBarState == SearchAppBarState.TRIGGERED) {//проверяем находимся ли мы в стостоянии поиска
+        if (searchedTasks is RequestState.Success) {
+            HandleListContent(
+                tasks = searchedTasks.data,
                 navigateToTaskScreen = navigateToTaskScreen
             )
+        }
     }
+    else
+    {
+        if(allTasks is RequestState.Success){
+            HandleListContent(
+                tasks = allTasks.data,
+                navigateToTaskScreen =navigateToTaskScreen
+            )
+        }
+    }
+
 }
 
 @ExperimentalMaterialApi
 @Composable
-fun DisplayTasks(
+fun HandleListContent(
     tasks: List<SimpleTask>,
+    navigateToTaskScreen: (taskId: Int) -> Unit
+) {
+    if (tasks.isEmpty())
+        EmptyContent()
+    else
+        DisplayTasks(
+            allTasks = tasks,
+            navigateToTaskScreen = navigateToTaskScreen
+        )
+}
+
+
+@ExperimentalMaterialApi
+@Composable
+fun DisplayTasks(
+    allTasks: List<SimpleTask>,
     navigateToTaskScreen: (taskId: Int) -> Unit
 ) {
     LazyColumn {
         items(
-            items = tasks,//список данных
+            items = allTasks,//список данных
             key = { task ->//фабрика стабильных и уникальных ключей, представляющих предмет
                 task.id//т.е. выдаем уникальные идентификаторы для каждого элемента списка
             }
@@ -57,7 +85,6 @@ fun DisplayTasks(
         }
     }
 }
-
 
 @ExperimentalMaterialApi
 @Composable

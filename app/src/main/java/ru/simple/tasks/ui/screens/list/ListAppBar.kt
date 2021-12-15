@@ -27,6 +27,7 @@ import androidx.compose.ui.text.input.ImeAction
 import ru.simple.tasks.components.PriorityItem
 import ru.simple.tasks.ui.theme.*
 import ru.simple.tasks.ui.viewmodels.SharedViewModel
+import ru.simple.tasks.util.Action
 import ru.simple.tasks.util.SearchAppBarState
 
 @Composable
@@ -43,7 +44,9 @@ fun ListAppBar(
                         SearchAppBarState.OPENED//открываем строку поиска
                 },
                 onSortClicked = {},
-                onDeleteClicked = {}
+                onDeleteAllClicked = {
+                    sharedViewModel.action.value = Action.DELETE_ALL
+                }
             )
         }
         else -> {//строка поиска открыта (т.е. ищем)
@@ -58,7 +61,9 @@ fun ListAppBar(
                         SearchAppBarState.CLOSED
                     sharedViewModel.searchTexState.value = ""
                 },
-                onSearchClicked = {}
+                onSearchClicked = {
+                    sharedViewModel.searchDatabase(searchQuery = it)
+                }
             )
         }
     }
@@ -68,7 +73,7 @@ fun ListAppBar(
 fun DefaultListAppBar(
     onSearchClicked: () -> Unit,
     onSortClicked: (Priority) -> Unit,
-    onDeleteClicked: () -> Unit
+    onDeleteAllClicked: () -> Unit
 ) {
     TopAppBar(
         title = { Text(text = stringResource(id = R.string.tasks), color = MaterialTheme.colors.topAppBarContentColor) },
@@ -76,7 +81,7 @@ fun DefaultListAppBar(
             ListAppBarActions(
                 onSearchClicked = onSearchClicked,
                 onSortClicked = onSortClicked,
-                onDeleteClicked = onDeleteClicked
+                onDeleteAllClicked = onDeleteAllClicked
             )
         },
         backgroundColor = MaterialTheme.colors.topAppBarBackgroundColor
@@ -87,11 +92,11 @@ fun DefaultListAppBar(
 fun ListAppBarActions(
     onSearchClicked: () -> Unit,
     onSortClicked: (Priority) -> Unit,
-    onDeleteClicked: () -> Unit
+    onDeleteAllClicked: () -> Unit
 ) {
     SearchAction(onSearchClicked = onSearchClicked)
     SortAction(onSortClicked = onSortClicked)
-    DeleteAllAction(onDeleteClicked = onDeleteClicked)
+    DeleteAllAction(onDeleteAllClicked = onDeleteAllClicked)
 }
 
 @Composable
@@ -151,36 +156,16 @@ fun SortAction(
 
 @Composable
 fun DeleteAllAction(
-    onDeleteClicked: () -> Unit
+    onDeleteAllClicked: () -> Unit
 ) {
-    var expended by remember {//remember сохраняет значение переменной без сохранения состояния
-        mutableStateOf(false)//переменная expended отвечает за показ и скрытие выпадающего меню сортировки
-    }
-    IconButton(onClick = { expended = true }) {
+    IconButton(onClick = { onDeleteAllClicked() }) {
         Icon(
             //для добавления всех материальных иконок используйте implementation "androidx.compose.material:material-icons-extended:$compose_version"
             //но Google не рекомедует так делать, т.к. библиотека много весит
-            painter = painterResource(id = R.drawable.ic_vertical_menu),
+            painter = painterResource(id = R.drawable.ic_delete_all),
             contentDescription = stringResource(id = R.string.delete_all_action),
             tint = MaterialTheme.colors.topAppBarContentColor
         )
-        DropdownMenu(//TODO оставить только иконку (без выпадающего списка)
-            expanded = expended,
-            onDismissRequest = { expended = false }) {
-            DropdownMenuItem(
-                onClick = {
-                    expended = false
-                    onDeleteClicked()
-                }) {
-                Text(
-                    modifier = Modifier.padding(start = LARGE_PADDING),
-                    text = stringResource(
-                        id = R.string.delete_all_action
-                    ),
-                    style = Typography.subtitle2
-                )
-            }
-        }
     }
 }
 
@@ -191,9 +176,6 @@ fun SearchAppBar(
     onClosedClicked: () -> Unit,
     onSearchClicked: (String) -> Unit
 ) {
-    //var trailingIconState by remember {//запоминаем состояние, чтобы понимать удаляем текст в поисковой строке или закрываем ее
-     //   mutableStateOf(true)//по умолчанию удаляем текст из поисковой строки
-    //}
     Surface(
         modifier = Modifier
             .fillMaxWidth()
@@ -269,7 +251,7 @@ fun DefaultListAppBarPreview() {
     DefaultListAppBar(
         onSearchClicked = {},
         onSortClicked = {},
-        onDeleteClicked = {}
+        onDeleteAllClicked = {}
     )
 }
 

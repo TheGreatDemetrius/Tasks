@@ -3,6 +3,7 @@
     <string name="enter_title">Enter a title.</string>
     <string name="ok">OK</string>
     <string name="delete">DELETE</string>
+    <string name="delete_all">All tasks removed.</string>
     <string name="undo">UNDO</string>
     <string name="add_task">Add task</string>
     <string name="app_name">Tasks</string>

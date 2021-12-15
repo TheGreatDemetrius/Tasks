@@ -27,6 +27,7 @@ fun ListScreen(
 
     //переменные уведомят, если в классе SharedViewModel их значения изменятся
     val action by sharedViewModel.action
+    val searchedTasks by sharedViewModel.searchedTasks.collectAsState()//collectAsState() будет наблюдать за потоком из составной функции
     val allTasks by sharedViewModel.allTasks.collectAsState()//collectAsState() будет наблюдать за потоком из составной функции
     val searchAppBarState: SearchAppBarState by sharedViewModel.searchAppBarState
     val searchTextString: String by sharedViewModel.searchTexState
@@ -38,7 +39,9 @@ fun ListScreen(
         taskTitle = sharedViewModel.title.value,
         action = action,
         handleDatabaseActions = { sharedViewModel.handleDatabaseActions(action = action) },//вызываем функцию, которая будет выполнять действия
-        onUndoClicked = { sharedViewModel.action.value = it }//проверяем нажимаем ли мы отмену задачи
+        onUndoClicked = {
+            sharedViewModel.action.value = it
+        }//проверяем нажимаем ли мы отмену задачи
     )
 
     Scaffold(
@@ -52,7 +55,9 @@ fun ListScreen(
         },
         content = {
             ListContent(
-                tasks = allTasks,
+                allTasks = allTasks,
+                searchedTasks = searchedTasks,
+                searchAppBarState = searchAppBarState,
                 navigateToTaskScreen = navigateToTaskScreen
             )
         },
@@ -86,6 +91,7 @@ fun ShowSnackbar(
     handleDatabaseActions()
     val scope = rememberCoroutineScope()
 
+    val deleteAllMessage = stringResource(id = R.string.delete_all)
     val deleteLabel = stringResource(id = R.string.delete)
     val undoLabel = stringResource(id = R.string.undo)
     val okLabel = stringResource(id = R.string.ok)
@@ -94,8 +100,8 @@ fun ShowSnackbar(
             scope.launch {
                 val snackbarResult =//snackbarResult проверяет нажали ли на actionLabel
                     scaffoldState.snackbarHostState.showSnackbar(
-                        message = "${action.name}: $taskTitle",
-                        actionLabel = setActionLabel(action, deleteLabel, undoLabel, okLabel)
+                        message = if (action == Action.DELETE_ALL) deleteAllMessage else "${action.name}: $taskTitle",
+                        actionLabel = if (action.name == deleteLabel) undoLabel else okLabel
                     )
                 undoDeletedTask(
                     action = action,
@@ -105,13 +111,6 @@ fun ShowSnackbar(
             }
     }
 }
-
-private fun setActionLabel(
-    action: Action,
-    delete: String,
-    undo: String,
-    ok: String
-): String = if (action.name == delete) undo else ok
 
 private fun undoDeletedTask(
     action: Action,

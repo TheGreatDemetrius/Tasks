@@ -4,6 +4,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.room.Query
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -37,6 +38,25 @@ class SharedViewModel @Inject constructor(
 
     val searchTexState: MutableState<String> =
         mutableStateOf("")//указываем, что по умолчанию поисковая строка будет пуста
+
+    private val _searchedTasks =
+        MutableStateFlow<RequestState<List<SimpleTask>>>(RequestState.Idle)
+    val searchedTasks: StateFlow<RequestState<List<SimpleTask>>> = _searchedTasks
+
+    fun searchDatabase(searchQuery: String) {
+        _searchedTasks.value = RequestState.Loading//переходим в состояние загрузки данных
+        try {
+            viewModelScope.launch {
+                repository.searchDatabase(searchQuery = "%$searchQuery%")
+                    .collect { searchedTasks ->
+                        _searchedTasks.value = RequestState.Success(searchedTasks)
+                    }
+            }
+        } catch (e: Exception) {
+            _searchedTasks.value = RequestState.Error(e)//переходим в состояние ошибки
+        }
+        searchAppBarState.value = SearchAppBarState.TRIGGERED//обновляем состояние поисковой строки
+    }
 
     private val _allTasks =
         MutableStateFlow<RequestState<List<SimpleTask>>>(RequestState.Idle)
@@ -76,6 +96,7 @@ class SharedViewModel @Inject constructor(
             )
             repository.addTask(simpleTask = simpleTask)
         }
+        resetSearchedTask()
     }
 
     private fun updateTask() {
@@ -88,6 +109,7 @@ class SharedViewModel @Inject constructor(
             )
             repository.updateTask(simpleTask = simpleTask)
         }
+        resetSearchedTask()
     }
 
     private fun deleteTask() {
@@ -100,6 +122,18 @@ class SharedViewModel @Inject constructor(
             )
             repository.deleteTask(simpleTask = simpleTask)
         }
+        resetSearchedTask()
+    }
+
+    private fun deleteAllTasks() {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.deleteAllTasks()
+        }
+    }
+
+
+    private fun resetSearchedTask() {
+        searchAppBarState.value = SearchAppBarState.CLOSED
     }
 
     fun handleDatabaseActions(action: Action) {//выполняем полученное действие
@@ -107,7 +141,7 @@ class SharedViewModel @Inject constructor(
             Action.ADD -> addTask()
             Action.UPDATE -> updateTask()
             Action.DELETE -> deleteTask()
-            Action.DELETE_ALL -> addTask()
+            Action.DELETE_ALL -> deleteAllTasks()
             Action.UNDO -> addTask()
             else -> {}//если нажали кнопку назад (т.е. NO_ACTION)
         }
