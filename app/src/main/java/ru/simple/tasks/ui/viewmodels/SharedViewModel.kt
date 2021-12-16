@@ -7,9 +7,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.room.Query
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import ru.simple.tasks.data.models.Priority
 import ru.simple.tasks.data.models.SimpleTask
@@ -133,9 +131,47 @@ class SharedViewModel @Inject constructor(
         }
     }
 
-
     private fun resetSearchedTask() {
         searchAppBarState.value = SearchAppBarState.CLOSED
+    }
+
+    val lowPriorityTasks: StateFlow<List<SimpleTask>> =
+        repository.sortByLowPriority.stateIn(//stateIn преобразует поток в поток состояний, который запускается в заданной области сопрограммы
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(),
+            emptyList()
+        )
+
+    val highPriorityTasks: StateFlow<List<SimpleTask>> =
+        repository.sortByHighPriority.stateIn(//stateIn преобразует поток в поток состояний, который запускается в заданной области сопрограммы
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(),
+            emptyList()
+        )
+
+    private val _sortState =
+        MutableStateFlow<RequestState<Priority>>(RequestState.Idle)//используйте символ "_" перед названием private и protected переменной
+    val sortState: StateFlow<RequestState<Priority>> = _sortState
+
+    fun readSortState() {
+        _sortState.value = RequestState.Loading//переходим в состояние загрузки данных
+        try {
+            viewModelScope.launch {
+                dataStoreRepository.readSortState
+                    .map { Priority.valueOf(it) }
+                    .collect {
+                        _sortState.value = RequestState.Success(it)
+                    }
+            }
+        } catch (e: Exception) {
+            _sortState.value = RequestState.Error(e)//переходим в состояние ошибки
+        }
+    }
+
+    fun persistSortState(priority: Priority) {
+        viewModelScope.launch(Dispatchers.IO) {
+            dataStoreRepository.persistSortState(priority = priority)
+        }
     }
 
     fun handleDatabaseActions(action: Action) {//выполняем полученное действие

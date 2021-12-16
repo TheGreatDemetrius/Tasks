@@ -27,26 +27,36 @@ fun ListContent(
     allTasks: RequestState<List<SimpleTask>>,
     searchedTasks: RequestState<List<SimpleTask>>,
     searchAppBarState: SearchAppBarState,
+    sortState: RequestState<Priority>,
+    lowPriorityTasks: List<SimpleTask>,
+    highPriorityTasks: List<SimpleTask>,
     navigateToTaskScreen: (taskId: Int) -> Unit
 ) {
-    if (searchAppBarState == SearchAppBarState.TRIGGERED) {//проверяем находимся ли мы в стостоянии поиска
-        if (searchedTasks is RequestState.Success) {
-            HandleListContent(
-                tasks = searchedTasks.data,
-                navigateToTaskScreen = navigateToTaskScreen
-            )
+    if (sortState is RequestState.Success)//TODO оптимизировать
+        when {
+            searchAppBarState == SearchAppBarState.TRIGGERED ->
+                if (searchedTasks is RequestState.Success)
+                    HandleListContent(
+                        tasks = searchedTasks.data,
+                        navigateToTaskScreen = navigateToTaskScreen
+                    )
+            sortState.data == Priority.NONE ->
+                if (allTasks is RequestState.Success)
+                    HandleListContent(
+                        tasks = allTasks.data,
+                        navigateToTaskScreen = navigateToTaskScreen
+                    )
+            sortState.data == Priority.LOW ->
+                HandleListContent(
+                    tasks = lowPriorityTasks,
+                    navigateToTaskScreen = navigateToTaskScreen
+                )
+            sortState.data == Priority.HIGH ->
+                HandleListContent(
+                    tasks = highPriorityTasks,
+                    navigateToTaskScreen = navigateToTaskScreen
+                )
         }
-    }
-    else
-    {
-        if(allTasks is RequestState.Success){
-            HandleListContent(
-                tasks = allTasks.data,
-                navigateToTaskScreen =navigateToTaskScreen
-            )
-        }
-    }
-
 }
 
 @ExperimentalMaterialApi

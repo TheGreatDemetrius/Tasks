@@ -23,8 +23,8 @@ import javax.inject.Inject
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = PREFERENCE_NAME)
 
 @ViewModelScoped
-class DataStoreRepository @Inject constructor(
-    @ApplicationContext private val context: Context
+class DataStoreRepository @Inject constructor(//Inject - аннотация, которая определяет вводимые конструкторы, методы и поля
+    @ApplicationContext private val context: Context//ApplicationContext - аннотация для зависимости контекста приложения
 ) {
     private object PreferenceKeys {
         val sortKey = stringPreferencesKey(name = PREFERENCE_KEY)
@@ -34,17 +34,20 @@ class DataStoreRepository @Inject constructor(
 
     suspend fun persistSortState(priority: Priority) {
         dataStore.edit { preference ->
+            //сохраняем значение во временное хранилище
             preference[PreferenceKeys.sortKey] = priority.name
         }
     }
 
-    val readSortState: Flow<Unit> = dataStore.data
+    val readSortState: Flow<String> = dataStore.data
         .catch { exception ->
             if (exception is IOException)
                 emit(emptyPreferences())
             else throw exception
         }
         .map { preferences ->
-            val sortState = preferences[PreferenceKeys.sortKey] ?: Priority.NONE.name
+            //получаем значение из временного хранилища
+            val sortState = preferences[PreferenceKeys.sortKey] ?: Priority.NONE.name//если не удалось получить данные, то приоритет сортировки задач устанавливаем Priority.NONE
+            sortState//Unit преобразуем в String
         }
 }
