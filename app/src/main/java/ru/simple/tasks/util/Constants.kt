@@ -15,4 +15,6 @@ object Constants {
     const val TASK_SCREEN = "task/{taskId}"
     const val UNDO = "UNDO"
     const val UPDATE = "UPDATE"
+    const val SPLASH_SCREEN = "splash"
+    const val ANIMATION_DELAY = 300
 }

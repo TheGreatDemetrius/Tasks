@@ -1,6 +1,11 @@
 package ru.simple.tasks.ui.screens.list
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -9,8 +14,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
@@ -20,15 +25,18 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import ru.simple.tasks.R
 import ru.simple.tasks.data.models.Priority
 import ru.simple.tasks.data.models.SimpleTask
 import ru.simple.tasks.ui.theme.*
 import ru.simple.tasks.util.Action
+import ru.simple.tasks.util.Constants.ANIMATION_DELAY
 import ru.simple.tasks.util.RequestState
 import ru.simple.tasks.util.SearchAppBarState
 
+@ExperimentalAnimationApi
 @ExperimentalMaterialApi
 @Composable
 fun ListContent(
@@ -41,7 +49,7 @@ fun ListContent(
     onSwipeToDelete: (Action, SimpleTask) -> Unit,
     navigateToTaskScreen: (taskId: Int) -> Unit
 ) {
-    if (sortState is RequestState.Success)//TODO оптимизировать
+    if (sortState is RequestState.Success)
         when {
             searchAppBarState == SearchAppBarState.TRIGGERED ->
                 if (searchedTasks is RequestState.Success)
@@ -72,6 +80,7 @@ fun ListContent(
         }
 }
 
+@ExperimentalAnimationApi
 @ExperimentalMaterialApi
 @Composable
 fun HandleListContent(
@@ -90,6 +99,7 @@ fun HandleListContent(
 }
 
 
+@ExperimentalAnimationApi
 @ExperimentalMaterialApi
 @Composable
 fun DisplayTasks(
@@ -107,23 +117,49 @@ fun DisplayTasks(
             val dismissState = rememberDismissState()
             val dismissDirection = dismissState.dismissDirection
             val isDismissed = dismissState.isDismissed(DismissDirection.EndToStart)
-            if (isDismissed && dismissDirection == DismissDirection.EndToStart)
-                onSwipeToDelete(
-                    Action.DELETE,
-                    task
-                )
-            val degrees by animateFloatAsState(
-                targetValue = if (dismissState.targetValue == DismissValue.Default) 0f else -45f//TODO вынести все значения в константы
-            )
-            SwipeToDismiss(
-                state = dismissState,
-                directions = setOf(DismissDirection.EndToStart),
-                dismissThresholds = { FractionalThreshold(0.2f) },
-                background = { RedBackground(degrees = degrees) },
-                dismissContent = {
-                    TaskItem(simpleTask = task, navigateToTaskScreen = navigateToTaskScreen)
+            if (isDismissed && dismissDirection == DismissDirection.EndToStart) {
+                val scope = rememberCoroutineScope()
+                scope.launch {
+                    delay(ANIMATION_DELAY.toLong())//добавляем задержку на время анимации
+                    onSwipeToDelete(
+                        Action.DELETE,
+                        task
+                    )
                 }
+            }
+            val degrees by animateFloatAsState(
+                targetValue = if (dismissState.targetValue == DismissValue.Default) 0f else -45f
             )
+            var itemAppeared by remember {
+                mutableStateOf(false)
+            }
+            LaunchedEffect(key1 = true){
+                itemAppeared =true
+            }
+
+            AnimatedVisibility(
+                visible = itemAppeared && !isDismissed,
+                enter = expandVertically(
+                    animationSpec = tween(
+                        durationMillis = ANIMATION_DELAY
+                    )
+                ),
+                exit = shrinkVertically(
+                    animationSpec = tween(
+                        durationMillis = ANIMATION_DELAY
+                    )
+                )
+            ) {
+                SwipeToDismiss(
+                    state = dismissState,
+                    directions = setOf(DismissDirection.EndToStart),
+                    dismissThresholds = { FractionalThreshold(0.2f) },
+                    background = { RedBackground(degrees = degrees) },
+                    dismissContent = {
+                        TaskItem(simpleTask = task, navigateToTaskScreen = navigateToTaskScreen)
+                    }
+                )
+            }
         }
     }
 }

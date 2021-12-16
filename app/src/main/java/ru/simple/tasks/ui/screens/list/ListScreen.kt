@@ -1,5 +1,6 @@
 package ru.simple.tasks.ui.screens.list
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -13,6 +14,7 @@ import ru.simple.tasks.ui.viewmodels.SharedViewModel
 import ru.simple.tasks.util.Action
 import ru.simple.tasks.util.SearchAppBarState
 
+@ExperimentalAnimationApi
 @ExperimentalMaterialApi
 @Composable
 fun ListScreen(

@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
@@ -12,6 +13,7 @@ import ru.simple.tasks.navigation.SetupNavigation
 import ru.simple.tasks.ui.theme.TasksTheme
 import ru.simple.tasks.ui.viewmodels.SharedViewModel
 
+@ExperimentalAnimationApi
 @ExperimentalMaterialApi
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -32,3 +34,4 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+//TODO перевести приложение на другие языки

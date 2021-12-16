@@ -1,5 +1,6 @@
 package ru.simple.tasks.navigation.destination
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.NavGraphBuilder
@@ -12,6 +13,7 @@ import ru.simple.tasks.util.Constants.LIST_ARGUMENT_KEY
 import ru.simple.tasks.util.Constants.LIST_SCREEN
 import ru.simple.tasks.util.toAction
 
+@ExperimentalAnimationApi
 @ExperimentalMaterialApi
 fun NavGraphBuilder.listComposable(
     navigateToTaskScreen: (taskId: Int) -> Unit,//параметр для определения состояния перехода к экрану конкретной задачи

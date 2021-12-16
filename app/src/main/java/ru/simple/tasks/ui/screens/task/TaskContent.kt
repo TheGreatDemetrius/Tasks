@@ -9,7 +9,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import ru.simple.tasks.R
 import ru.simple.tasks.components.PriorityDropDown
 import ru.simple.tasks.data.models.Priority
@@ -31,7 +30,7 @@ fun TaskContent(
             .padding(all = LARGE_PADDING)
             .background(color = MaterialTheme.colors.background)
     ) {
-        OutlinedTextField(
+        OutlinedTextField(//TODO добавить фокус
             modifier = Modifier.fillMaxWidth(),
             value = title,
             onValueChange = { onTitleChange(it) },
