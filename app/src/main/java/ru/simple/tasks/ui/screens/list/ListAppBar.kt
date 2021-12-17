@@ -144,28 +144,13 @@ fun SortAction(
             contentDescription = stringResource(id = R.string.sort_tasks),
             tint = MaterialTheme.colors.topAppBarContentColor
         )
-        DropdownMenu(
-            expanded = expended,
-            onDismissRequest = {
-                expended = false
-            }) {//onDismissRequest срабатывает когда нажимаем вне области выпадающего меню
-            DropdownMenuItem(onClick = {
-                expended = false//скрываем пункт меню, после того как выбрали его
-                onSortClicked(Priority.LOW)
-            }) {
-                PriorityItem(priority = Priority.LOW)
-            }
-            DropdownMenuItem(onClick = {
-                expended = false//скрываем пункт меню, после того как выбрали его
-                onSortClicked(Priority.HIGH)
-            }) {
-                PriorityItem(priority = Priority.HIGH)
-            }
-            DropdownMenuItem(onClick = {
-                expended = false//скрываем пункт меню, после того как выбрали его
-                onSortClicked(Priority.NONE)
-            }) {
-                PriorityItem(priority = Priority.NONE)
+
+        DropdownMenu(expanded = expended, onDismissRequest = { expended = false }) {
+            Priority.values().slice(setOf(0, 2, 3)).forEach { priority ->
+                DropdownMenuItem(onClick = {
+                    expended = false
+                    onSortClicked(priority)
+                }) { PriorityItem(priority = priority) }
             }
         }
     }

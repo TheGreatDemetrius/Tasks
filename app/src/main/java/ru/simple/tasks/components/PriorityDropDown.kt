@@ -19,8 +19,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import ru.simple.tasks.ui.theme.PRIORITY_DROP_DOWN_HEIGHT
 import ru.simple.tasks.ui.theme.PRIORITY_INDICATOR_SIZE
@@ -35,10 +38,17 @@ fun PriorityDropDown(
         mutableStateOf(false)
     }
     val angle: Float by animateFloatAsState(
-        targetValue = if(expended) 180f else 0f
+        targetValue = if (expended) 180f else 0f
     )
 
+    var parentSize by remember {
+        mutableStateOf(IntSize.Zero)
+    }
+
     Row(modifier = Modifier
+        .onGloballyPositioned {
+            parentSize = it.size
+        }
         .background(color = MaterialTheme.colors.background)
         .height(PRIORITY_DROP_DOWN_HEIGHT)
         .clickable {
@@ -76,30 +86,18 @@ fun PriorityDropDown(
             )
         }
         DropdownMenu(
-            modifier = Modifier.fillMaxWidth(fraction = 0.94f),
+            modifier = Modifier.width(with(LocalDensity.current) { parentSize.width.toDp() }),
             expanded = expended,
             onDismissRequest = { expended = false }
         ) {
-            DropdownMenuItem(onClick =//первый пункт выпадающего меню
-            {
-                expended = false
-                onPrioritySelected(Priority.LOW)
-            }) {
-                PriorityItem(priority = Priority.LOW)
-            }
-            DropdownMenuItem(onClick =//второй пункт выпадающего меню
-            {
-                expended = false
-                onPrioritySelected(Priority.MEDIUM)
-            }) {
-                PriorityItem(priority = Priority.MEDIUM)
-            }
-            DropdownMenuItem(onClick =//третий пункт выпадающего меню
-            {
-                expended = false
-                onPrioritySelected(Priority.HIGH)
-            }) {
-                PriorityItem(priority = Priority.HIGH)
+            Priority.values().slice(0..2).forEach {priority ->
+                DropdownMenuItem(onClick =
+                {
+                    expended = false
+                    onPrioritySelected(priority)
+                }) {
+                    PriorityItem(priority = priority)
+                }
             }
         }
     }

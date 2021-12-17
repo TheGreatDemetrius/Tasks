@@ -22,13 +22,6 @@ fun ListScreen(
     sharedViewModel: SharedViewModel,
     navigateToTaskScreen: (taskId: Int) -> Unit
 ) {
-    LaunchedEffect(key1 = true) {
-        //запускаем сопрограмму, которая будет следить за состоянием пременной (коллекции)
-        sharedViewModel.getAllTasks()//например, при повороте экрана нам не надо заново получать все задачи
-        //мы получаем задачи только когда меняется ключ
-
-        sharedViewModel.readSortState()//считываем приоритет сортировки задач
-    }
 
     LaunchedEffect(key1 = action) {
         sharedViewModel.handleDatabaseActions(action = action)
@@ -78,6 +71,7 @@ fun ListScreen(
                 onSwipeToDelete = { action, task ->
                     sharedViewModel.action.value = action
                     sharedViewModel.updateTaskFields(selectedTask = task)
+                    scaffoldState.snackbarHostState.currentSnackbarData?.dismiss()
                 }
             )
         },

@@ -3,6 +3,7 @@ package ru.simple.tasks.ui.screens.task
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.OnBackPressedDispatcher
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.*
@@ -25,10 +26,11 @@ fun TaskScreen(
     val priority: Priority by sharedViewModel.priority
     val context = LocalContext.current
     val msg = stringResource(id = R.string.enter_title)
-    BackHandler() {
-        navigateToListScreen(Action.NO_ACTION)//при выходе с экрана задачи ничего не делать
-    }
 
+    BackHandler {
+        navigateToListScreen(Action.NO_ACTION)
+    }
+    
     Scaffold(
         topBar = {
             TaskAppBar(
@@ -65,25 +67,3 @@ fun TaskScreen(
     )
 }
 
-@Composable
-fun BackHandler(//обработка нажатия кнопки Назад
-    backDispatcher: OnBackPressedDispatcher? =
-        LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher,
-    onBackPressed: () -> Unit
-) {
-    val currentOnBackPressed by rememberUpdatedState(newValue = onBackPressed)
-    val backCallBack = remember {
-        object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                currentOnBackPressed()
-            }
-        }
-    }
-
-    DisposableEffect(key1 = backDispatcher) {
-        backDispatcher?.addCallback(backCallBack)
-        onDispose {
-            backCallBack.remove()
-        }
-    }
-}

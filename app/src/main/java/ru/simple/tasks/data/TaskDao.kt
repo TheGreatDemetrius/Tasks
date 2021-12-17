@@ -28,11 +28,25 @@ interface TaskDao {
     @Query("SELECT * FROM $DATABASE_TABLE WHERE title LIKE :searchQuery OR description LIKE :searchQuery")//ищем задачу в базе данных по заголовку или описанию
     fun searchDatabase(searchQuery: String): Flow<List<SimpleTask>>//запрашиваем список задач в асинхронном потоке
 
-    @Query("SELECT * FROM $DATABASE_TABLE ORDER BY CASE WHEN priority LIKE 'L%' THEN 1 WHEN priority LIKE 'M%' THEN 2 WHEN priority LIKE 'H%' THEN 3 END")
+    @Query("""
+        SELECT * FROM $DATABASE_TABLE ORDER BY
+    CASE
+        WHEN priority LIKE 'L%' THEN 1
+        WHEN priority LIKE 'M%' THEN 2
+        WHEN priority LIKE 'H%' THEN 3
+    END
+    """)
     //сортируем задачи по низкому приоритету (1 - низкий, 2 - средний, 3 - высокий приоритет)
     fun sortByLowPriority(): Flow<List<SimpleTask>>//запрашиваем список задач в асинхронном потоке
 
-    @Query("SELECT * FROM $DATABASE_TABLE ORDER BY CASE WHEN priority LIKE 'H%' THEN 1 WHEN priority LIKE 'M%' THEN 2 WHEN priority LIKE 'L%' THEN 3 END")
+    @Query("""
+        SELECT * FROM $DATABASE_TABLE ORDER BY
+    CASE
+        WHEN priority LIKE 'H%' THEN 1
+        WHEN priority LIKE 'M%' THEN 2
+        WHEN priority LIKE 'L%' THEN 3
+    END
+    """)
     //сортируем задачи по низкому приоритету (1 - высокий, 2 - средний, 3 - низкий приоритет)
     fun sortByHighPriority(): Flow<List<SimpleTask>>//запрашиваем список задач в асинхронном потоке
 }

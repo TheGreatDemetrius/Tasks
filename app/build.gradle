@@ -7,20 +7,16 @@ plugins {
 
 android {
     compileSdk 31
-
     defaultConfig {
         applicationId "com.example.to_docompose"
         minSdk 21
         targetSdk 31
         versionCode 1
         versionName "1.0"
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary true
         }
     }
-
     buildTypes {
         release {
             minifyEnabled false
@@ -40,7 +36,6 @@ android {
     }
     composeOptions {
         kotlinCompilerExtensionVersion compose_version
-        kotlinCompilerVersion '1.5.21'
     }
     packagingOptions {
         resources {
@@ -50,7 +45,6 @@ android {
 }
 
 dependencies {
-
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.0'
     implementation 'com.google.android.material:material:1.4.0'
@@ -73,7 +67,7 @@ dependencies {
     implementation "androidx.datastore:datastore-preferences:1.0.0"
 
     //Dagger
-    implementation "com.google.dagger:hilt-android:$hilt_version"//для реализации шаблона Singleton для объектов базы данных
+    implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
     kapt "androidx.hilt:hilt-compiler:1.0.0"
 }

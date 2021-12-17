@@ -38,9 +38,39 @@ class SharedViewModel @Inject constructor(
     val searchTexState: MutableState<String> =
         mutableStateOf("")//указываем, что по умолчанию поисковая строка будет пуста
 
+    private val _selectedTask: MutableStateFlow<SimpleTask?> = MutableStateFlow(value = null)
+    val selectedTask: StateFlow<SimpleTask?> = _selectedTask
+
+    private val _sortState =
+        MutableStateFlow<RequestState<Priority>>(RequestState.Idle)//используйте символ "_" перед названием private и protected переменной
+    val sortState: StateFlow<RequestState<Priority>> = _sortState
+
     private val _searchedTasks =
         MutableStateFlow<RequestState<List<SimpleTask>>>(RequestState.Idle)
     val searchedTasks: StateFlow<RequestState<List<SimpleTask>>> = _searchedTasks
+
+    private val _allTasks =
+        MutableStateFlow<RequestState<List<SimpleTask>>>(RequestState.Idle)
+    val allTasks: StateFlow<RequestState<List<SimpleTask>>> = _allTasks
+
+    val lowPriorityTasks: StateFlow<List<SimpleTask>> =
+        repository.sortByLowPriority.stateIn(//stateIn преобразует поток в поток состояний, который запускается в заданной области сопрограммы
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(),
+            emptyList()
+        )
+
+    val highPriorityTasks: StateFlow<List<SimpleTask>> =
+        repository.sortByHighPriority.stateIn(//stateIn преобразует поток в поток состояний, который запускается в заданной области сопрограммы
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(),
+            emptyList()
+        )
+
+    init {
+        getAllTasks()
+        readSortState()
+    }
 
     fun searchDatabase(searchQuery: String) {
         _searchedTasks.value = RequestState.Loading//переходим в состояние загрузки данных
@@ -57,11 +87,7 @@ class SharedViewModel @Inject constructor(
         searchAppBarState.value = SearchAppBarState.TRIGGERED//обновляем состояние поисковой строки
     }
 
-    private val _allTasks =
-        MutableStateFlow<RequestState<List<SimpleTask>>>(RequestState.Idle)
-    val allTasks: StateFlow<RequestState<List<SimpleTask>>> = _allTasks
-
-    fun getAllTasks() {
+    private fun getAllTasks() {
         _allTasks.value = RequestState.Loading//переходим в состояние загрузки данных
         try {
             viewModelScope.launch { //coroutine привязанная к жизненному циклу ViewModel
@@ -74,9 +100,6 @@ class SharedViewModel @Inject constructor(
             _allTasks.value = RequestState.Error(e)//переходим в состояние ошибки
         }
     }
-
-    private val _selectedTask: MutableStateFlow<SimpleTask?> = MutableStateFlow(value = null)
-    val selectedTask: StateFlow<SimpleTask?> = _selectedTask
 
     fun getSelectedTask(taskId: Int) {
         viewModelScope.launch {
@@ -134,25 +157,7 @@ class SharedViewModel @Inject constructor(
         searchAppBarState.value = SearchAppBarState.CLOSED
     }
 
-    val lowPriorityTasks: StateFlow<List<SimpleTask>> =
-        repository.sortByLowPriority.stateIn(//stateIn преобразует поток в поток состояний, который запускается в заданной области сопрограммы
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(),
-            emptyList()
-        )
-
-    val highPriorityTasks: StateFlow<List<SimpleTask>> =
-        repository.sortByHighPriority.stateIn(//stateIn преобразует поток в поток состояний, который запускается в заданной области сопрограммы
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(),
-            emptyList()
-        )
-
-    private val _sortState =
-        MutableStateFlow<RequestState<Priority>>(RequestState.Idle)//используйте символ "_" перед названием private и protected переменной
-    val sortState: StateFlow<RequestState<Priority>> = _sortState
-
-    fun readSortState() {
+    private fun readSortState() {
         _sortState.value = RequestState.Loading//переходим в состояние загрузки данных
         try {
             viewModelScope.launch {
