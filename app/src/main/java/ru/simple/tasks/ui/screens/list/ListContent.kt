@@ -15,7 +15,6 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.*
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
@@ -133,8 +132,8 @@ fun DisplayTasks(
             var itemAppeared by remember {
                 mutableStateOf(false)
             }
-            LaunchedEffect(key1 = true){
-                itemAppeared =true
+            LaunchedEffect(key1 = true) {
+                itemAppeared = true
             }
 
             AnimatedVisibility(

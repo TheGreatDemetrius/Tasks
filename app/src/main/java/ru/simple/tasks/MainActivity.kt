@@ -34,4 +34,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-//TODO перевести приложение на другие языки

@@ -4,7 +4,6 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.room.Query
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
@@ -175,7 +174,7 @@ class SharedViewModel @Inject constructor(
     }
 
     fun handleDatabaseActions(action: Action) {//выполняем полученное действие
-        when (action) {
+        when (action) {//значение по умолчанию устанавливается автоматически
             Action.ADD -> addTask()
             Action.UPDATE -> updateTask()
             Action.DELETE -> deleteTask()
@@ -183,7 +182,6 @@ class SharedViewModel @Inject constructor(
             Action.UNDO -> addTask()
             else -> {}//если нажали кнопку назад (т.е. NO_ACTION)
         }
-        this.action.value = Action.NO_ACTION//устанавливаем значение по умолчанию
     }
 
     fun updateTaskFields(selectedTask: SimpleTask?) {

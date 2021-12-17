@@ -18,8 +18,9 @@ import ru.simple.tasks.util.SearchAppBarState
 @ExperimentalMaterialApi
 @Composable
 fun ListScreen(
-    navigateToTaskScreen: (taskId: Int) -> Unit,
-    sharedViewModel: SharedViewModel
+    action: Action,
+    sharedViewModel: SharedViewModel,
+    navigateToTaskScreen: (taskId: Int) -> Unit
 ) {
     LaunchedEffect(key1 = true) {
         //запускаем сопрограмму, которая будет следить за состоянием пременной (коллекции)
@@ -29,8 +30,11 @@ fun ListScreen(
         sharedViewModel.readSortState()//считываем приоритет сортировки задач
     }
 
+    LaunchedEffect(key1 = action) {
+        sharedViewModel.handleDatabaseActions(action = action)
+    }
+
     //переменные уведомят, если в классе SharedViewModel их значения изменятся
-    val action by sharedViewModel.action
     //collectAsState() будет наблюдать за потоком из составной функции
     val searchedTasks by sharedViewModel.searchedTasks.collectAsState()
     val allTasks by sharedViewModel.allTasks.collectAsState()
@@ -46,12 +50,13 @@ fun ListScreen(
         scaffoldState = scaffoldState,
         taskTitle = sharedViewModel.title.value,
         action = action,
-        handleDatabaseActions = { sharedViewModel.handleDatabaseActions(action = action) },//вызываем функцию, которая будет выполнять действия
+        onComplete = {
+            sharedViewModel.action.value = it
+        },//вызываем функцию, которая будет выполнять действия
         onUndoClicked = {
             sharedViewModel.action.value = it
         }//проверяем нажимаем ли мы отмену задачи
     )
-
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
@@ -70,8 +75,7 @@ fun ListScreen(
                 highPriorityTasks = highPriorityTasks,
                 sortState = sortState,
                 navigateToTaskScreen = navigateToTaskScreen,
-                onSwipeToDelete = {
-                        action, task ->
+                onSwipeToDelete = { action, task ->
                     sharedViewModel.action.value = action
                     sharedViewModel.updateTaskFields(selectedTask = task)
                 }
@@ -101,18 +105,16 @@ fun ShowSnackbar(
     scaffoldState: ScaffoldState,
     taskTitle: String,
     action: Action,
-    handleDatabaseActions: () -> Unit,
+    onComplete: (Action) -> Unit,
     onUndoClicked: (Action) -> Unit
 ) {
-    handleDatabaseActions()
     val scope = rememberCoroutineScope()
-
     val deleteAllMessage = stringResource(id = R.string.delete_all)
     val deleteLabel = stringResource(id = R.string.delete)
     val undoLabel = stringResource(id = R.string.undo)
     val okLabel = stringResource(id = R.string.ok)
     LaunchedEffect(key1 = action) {
-        if (action != Action.NO_ACTION)//вызываем Snackbar после нажатия любого действия, кроме NO_ACTION
+        if (action != Action.NO_ACTION) {//вызываем Snackbar после нажатия любого действия, кроме NO_ACTION
             scope.launch {
                 val snackbarResult =//snackbarResult проверяет нажали ли на actionLabel
                     scaffoldState.snackbarHostState.showSnackbar(
@@ -125,6 +127,8 @@ fun ShowSnackbar(
                     onUndoClicked = onUndoClicked
                 )
             }
+            onComplete(Action.NO_ACTION)
+        }
     }
 }
 
