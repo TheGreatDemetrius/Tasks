@@ -13,7 +13,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import ru.simple.tasks.R
 import ru.simple.tasks.data.models.Priority
 import androidx.compose.runtime.getValue
@@ -78,7 +77,7 @@ fun DefaultListAppBar(
     TopAppBar(
         title = {
             Text(
-                text = stringResource(id = R.string.tasks),
+                text = stringResource(id = R.string.app_name),
                 color = MaterialTheme.colors.topAppBarContentColor
             )
         },
@@ -245,25 +244,4 @@ fun SearchAppBar(
             )
         )
     }
-}
-
-@Preview
-@Composable
-fun DefaultListAppBarPreview() {
-    DefaultListAppBar(
-        onSearchClicked = {},
-        onSortClicked = {},
-        onDeleteAllConfirmed = {}
-    )
-}
-
-@Preview
-@Composable
-fun SearchAppBarPreview() {
-    SearchAppBar(
-        text = "",
-        onTextChange = {},
-        onClosedClicked = {},
-        onSearchClicked = {}
-    )
 }

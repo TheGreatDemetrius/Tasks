@@ -47,7 +47,8 @@ class DataStoreRepository @Inject constructor(//Inject - аннотация, к�
         }
         .map { preferences ->
             //получаем значение из временного хранилища
-            val sortState = preferences[PreferenceKeys.sortKey] ?: Priority.NONE.name//если не удалось получить данные, то приоритет сортировки задач устанавливаем Priority.NONE
+            val sortState = preferences[PreferenceKeys.sortKey]
+                ?: Priority.NONE.name//если не удалось получить данные, то приоритет сортировки задач устанавливаем Priority.NONE
             sortState//Unit преобразуем в String
         }
 }

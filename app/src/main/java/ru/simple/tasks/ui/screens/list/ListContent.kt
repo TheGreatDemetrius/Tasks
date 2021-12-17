@@ -23,7 +23,6 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.simple.tasks.R
@@ -236,18 +235,4 @@ fun TaskItem(
             )
         }
     }
-}
-
-@ExperimentalMaterialApi
-@Preview
-@Composable
-fun TaskItemPreview() {
-    TaskItem(
-        simpleTask = SimpleTask(
-            0,
-            "Title",
-            "Description",
-            Priority.HIGH
-        ),
-        navigateToTaskScreen = {})
 }

@@ -6,7 +6,7 @@ import ru.simple.tasks.ui.theme.LowPriorityColor
 import ru.simple.tasks.ui.theme.MediumPriorityColor
 import ru.simple.tasks.ui.theme.NonePriorityColor
 
-enum class Priority(val color : Color) {
+enum class Priority(val color: Color) {
     LOW(LowPriorityColor),
     MEDIUM(MediumPriorityColor),
     HIGH(HighPriorityColor),

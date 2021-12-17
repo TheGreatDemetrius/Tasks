@@ -13,7 +13,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import ru.simple.tasks.ui.theme.topAppBarContentColor
 import ru.simple.tasks.util.Action
 import ru.simple.tasks.R
@@ -104,8 +103,8 @@ fun CloseAction(//нажали закрыть задачу
         onClosedClicked(Action.NO_ACTION)
     }) {
         Icon(
-            imageVector = Icons.Filled.Close,
-            contentDescription = stringResource(id = R.string.close_icon),
+            imageVector = Icons.Filled.ArrowBack,
+            contentDescription = stringResource(id = R.string.back_arrow),
             tint = MaterialTheme.colors.topAppBarContentColor
         )
     }
@@ -178,23 +177,4 @@ fun AddAction(//нажали добавить задачу
             tint = MaterialTheme.colors.topAppBarContentColor
         )
     }
-}
-
-@Preview
-@Composable
-fun TaskItemAppBarPreview() {
-    TaskItemAppBar(navigateToListScreen = {})
-}
-
-@Preview
-@Composable
-fun ExistingTaskAppBarPreview() {
-    ExistingTaskAppBar(
-        selectedTask = SimpleTask(
-            0,
-            "Title",
-            "Description",
-            Priority.LOW
-        ),
-        navigateToListScreen = {})
 }

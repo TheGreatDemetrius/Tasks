@@ -13,23 +13,24 @@ class TaskRepository @Inject constructor(private val taskDao: TaskDao) {
     val sortByLowPriority: Flow<List<SimpleTask>> = taskDao.sortByLowPriority()
     val sortByHighPriority: Flow<List<SimpleTask>> = taskDao.sortByHighPriority()
 
-    suspend fun addTask(simpleTask: SimpleTask){
+    suspend fun addTask(simpleTask: SimpleTask) {
         taskDao.addTask(simpleTask = simpleTask)
     }
 
-    suspend fun updateTask(simpleTask: SimpleTask){
+    suspend fun updateTask(simpleTask: SimpleTask) {
         taskDao.updateTask(simpleTask = simpleTask)
     }
 
-    suspend fun deleteTask(simpleTask: SimpleTask){
+    suspend fun deleteTask(simpleTask: SimpleTask) {
         taskDao.deleteTask(simpleTask = simpleTask)
     }
 
-    suspend fun deleteAllTasks(){
+    suspend fun deleteAllTasks() {
         taskDao.deleteAllTasks()
     }
 
     fun getSelectedTask(taskId: Int): Flow<SimpleTask> = taskDao.getSelectedTask(taskId = taskId)
 
-    fun searchDatabase(searchQuery: String): Flow<List<SimpleTask>> = taskDao.searchDatabase(searchQuery = searchQuery)
+    fun searchDatabase(searchQuery: String): Flow<List<SimpleTask>> =
+        taskDao.searchDatabase(searchQuery = searchQuery)
 }

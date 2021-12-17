@@ -11,7 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.simple.tasks.R
 import ru.simple.tasks.ui.theme.MediumGray
@@ -28,7 +27,7 @@ fun EmptyContent() {
         Icon(
             modifier = Modifier.size(120.dp),
             painter = painterResource(id = R.drawable.ic_add_task),
-            contentDescription = stringResource(id = R.string.check),
+            contentDescription = stringResource(id = R.string.add_task),
             tint = MediumGray
         )
         Text(
@@ -38,10 +37,4 @@ fun EmptyContent() {
             fontSize = MaterialTheme.typography.h6.fontSize
         )
     }
-}
-
-@Preview
-@Composable
-fun EmptyContentPreview() {
-    EmptyContent()
 }

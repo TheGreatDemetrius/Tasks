@@ -39,7 +39,7 @@ fun ListScreen(
 
     val scaffoldState = rememberScaffoldState()
 
-    ShowSnackbar(
+    ShowSnackBar(
         scaffoldState = scaffoldState,
         taskTitle = sharedViewModel.title.value,
         action = action,
@@ -95,7 +95,7 @@ fun ListFab(onFabClicked: (taskId: Int) -> Unit) {
 }
 
 @Composable
-fun ShowSnackbar(
+fun ShowSnackBar(
     scaffoldState: ScaffoldState,
     taskTitle: String,
     action: Action,
@@ -108,16 +108,16 @@ fun ShowSnackbar(
     val undoLabel = stringResource(id = R.string.undo)
     val okLabel = stringResource(id = R.string.ok)
     LaunchedEffect(key1 = action) {
-        if (action != Action.NO_ACTION) {//вызываем Snackbar после нажатия любого действия, кроме NO_ACTION
+        if (action != Action.NO_ACTION) {//вызываем SnackBar после нажатия любого действия, кроме NO_ACTION
             scope.launch {
-                val snackbarResult =//snackbarResult проверяет нажали ли на actionLabel
+                val snackBarResult =//snackBarResult проверяет нажали ли на actionLabel
                     scaffoldState.snackbarHostState.showSnackbar(
                         message = if (action == Action.DELETE_ALL) deleteAllMessage else "${action.name}: $taskTitle",
                         actionLabel = if (action.name == deleteLabel) undoLabel else okLabel
                     )
                 undoDeletedTask(
                     action = action,
-                    snackbarResult = snackbarResult,
+                    snackBarResult = snackBarResult,
                     onUndoClicked = onUndoClicked
                 )
             }
@@ -128,9 +128,9 @@ fun ShowSnackbar(
 
 private fun undoDeletedTask(
     action: Action,
-    snackbarResult: SnackbarResult,
+    snackBarResult: SnackbarResult,
     onUndoClicked: (Action) -> Unit
 ) {
-    if (snackbarResult == SnackbarResult.ActionPerformed && action == Action.DELETE)
+    if (snackBarResult == SnackbarResult.ActionPerformed && action == Action.DELETE)
         onUndoClicked(Action.UNDO)
 }

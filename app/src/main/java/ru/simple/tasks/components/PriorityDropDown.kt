@@ -22,7 +22,6 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import ru.simple.tasks.ui.theme.PRIORITY_DROP_DOWN_HEIGHT
@@ -90,7 +89,7 @@ fun PriorityDropDown(
             expanded = expended,
             onDismissRequest = { expended = false }
         ) {
-            Priority.values().slice(0..2).forEach {priority ->
+            Priority.values().slice(0..2).forEach { priority ->
                 DropdownMenuItem(onClick =
                 {
                     expended = false
@@ -101,10 +100,4 @@ fun PriorityDropDown(
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun PriorityDropDownPreview() {
-    PriorityDropDown(priority = Priority.LOW, onPrioritySelected = {})
 }
