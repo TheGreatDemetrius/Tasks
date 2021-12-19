@@ -4,7 +4,6 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -16,7 +15,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import ru.simple.tasks.ui.theme.topAppBarContentColor
 import ru.simple.tasks.util.Action
 import ru.simple.tasks.R
-import ru.simple.tasks.data.models.Priority
 import ru.simple.tasks.data.models.SimpleTask
 import ru.simple.tasks.ui.theme.topAppBarBackgroundColor
 import ru.simple.tasks.components.AlertDialog
@@ -59,9 +57,7 @@ fun TaskItemAppBar(
 fun BackAction(//нажали вернуться назад
     onBackClicked: (Action) -> Unit
 ) {
-    IconButton(onClick = {
-        onBackClicked(Action.NO_ACTION)
-    }) {
+    IconButton(onClick = { onBackClicked(Action.NO_ACTION) }) {
         Icon(
             imageVector = Icons.Filled.ArrowBack,
             contentDescription = stringResource(id = R.string.back_arrow),
@@ -99,10 +95,9 @@ fun ExistingTaskAppBar(//TaskAppBar для существующей задачи
 fun CloseAction(//нажали закрыть задачу
     onClosedClicked: (Action) -> Unit
 ) {
-    IconButton(onClick = {
-        onClosedClicked(Action.NO_ACTION)
-    }) {
+    IconButton(onClick = { onClosedClicked(Action.NO_ACTION) }) {
         Icon(
+
             imageVector = Icons.Filled.ArrowBack,
             contentDescription = stringResource(id = R.string.back_arrow),
             tint = MaterialTheme.colors.topAppBarContentColor
@@ -137,9 +132,7 @@ fun ExistingTaskAppBarActions(
 fun DeleteAction(//нажали удалить задачу
     onDeleteClicked: () -> Unit
 ) {
-    IconButton(onClick = {
-        onDeleteClicked()
-    }) {
+    IconButton(onClick = { onDeleteClicked() }) {
         Icon(
             imageVector = Icons.Filled.Delete,
             contentDescription = stringResource(id = R.string.delete_icon),
@@ -152,9 +145,7 @@ fun DeleteAction(//нажали удалить задачу
 fun UpdateAction(//нажали обновить задачу
     onUpdateClicked: (Action) -> Unit
 ) {
-    IconButton(onClick = {
-        onUpdateClicked(Action.UPDATE)
-    }) {
+    IconButton(onClick = { onUpdateClicked(Action.UPDATE) }) {
         Icon(
             imageVector = Icons.Filled.Check,
             contentDescription = stringResource(id = R.string.update_icon),
@@ -163,14 +154,11 @@ fun UpdateAction(//нажали обновить задачу
     }
 }
 
-
 @Composable
 fun AddAction(//нажали добавить задачу
     onAddClicked: (Action) -> Unit
 ) {
-    IconButton(onClick = {
-        onAddClicked(Action.ADD)
-    }) {
+    IconButton(onClick = { onAddClicked(Action.ADD) }) {
         Icon(
             imageVector = Icons.Filled.Check,
             contentDescription = stringResource(id = R.string.add_task),

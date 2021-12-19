@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="blue_200">#FF95BAFA</color>
-    <color name="blue_500">#FF71A4FA</color>
+    <color name="blue_200">#FF80B4FF</color>
+    <color name="blue_500">#FF609BEB</color>
     <color name="blue_700">#FF4285F4</color>
     <color name="teal_200">#FF2FF3D8</color>
     <color name="teal_700">#FF0F9E8A</color>

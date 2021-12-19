@@ -8,17 +8,14 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import ru.simple.tasks.R
 import ru.simple.tasks.data.models.Priority
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
@@ -137,13 +134,10 @@ fun SortAction(
     }
     IconButton(onClick = { expended = true }) {
         Icon(
-            //для добавления всех материальных иконок используйте implementation "androidx.compose.material:material-icons-extended:$compose_version"
-            //но Google не рекомедует так делать, т.к. библиотека много весит
             painter = painterResource(id = R.drawable.ic_filter_list),
             contentDescription = stringResource(id = R.string.sort_tasks),
             tint = MaterialTheme.colors.topAppBarContentColor
         )
-
         DropdownMenu(expanded = expended, onDismissRequest = { expended = false }) {
             Priority.values().slice(setOf(0, 2, 3)).forEach { priority ->
                 DropdownMenuItem(onClick = {
@@ -161,8 +155,6 @@ fun DeleteAllAction(
 ) {
     IconButton(onClick = { onDeleteAllConfirmed() }) {
         Icon(
-            //для добавления всех материальных иконок используйте implementation "androidx.compose.material:material-icons-extended:$compose_version"
-            //но Google не рекомедует так делать, т.к. библиотека много весит
             painter = painterResource(id = R.drawable.ic_delete_all),
             contentDescription = stringResource(id = R.string.delete_all_action),
             tint = MaterialTheme.colors.topAppBarContentColor
@@ -177,6 +169,7 @@ fun SearchAppBar(
     onClosedClicked: () -> Unit,
     onSearchClicked: (String) -> Unit
 ) {
+    val focusRequester = FocusRequester()
     Surface(
         modifier = Modifier
             .fillMaxWidth()
@@ -185,14 +178,13 @@ fun SearchAppBar(
         color = MaterialTheme.colors.topAppBarBackgroundColor
     ) {
         TextField(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().focusRequester(focusRequester),
             value = text,
             onValueChange = {
                 onTextChange(it)//возвращаем строку соответствующую тексту введенному в данное текстовое поле
             },
             placeholder = {
                 Text(
-                    modifier = Modifier.alpha(ContentAlpha.medium),//установили среднюю контрастность
                     text = stringResource(id = R.string.search),
                     color = Color.White
                 )
@@ -203,25 +195,22 @@ fun SearchAppBar(
             ),
             singleLine = true,
             leadingIcon = {
-                IconButton(
-                    modifier = Modifier.alpha(ContentAlpha.disabled),//отключили контрастность кнопки, чтобы сделать иконку полупрозрачной
-                    onClick = {}
-                ) {
-                    Icon(
-                        imageVector = Icons.Filled.Search,
-                        contentDescription = stringResource(id = R.string.search_icon),
-                        tint = MaterialTheme.colors.topAppBarContentColor
-                    )
-                }
+                Icon(
+                    imageVector = Icons.Filled.Search,
+                    contentDescription = stringResource(id = R.string.search_icon),
+                    tint = MaterialTheme.colors.topAppBarContentColor
+                )
             },
             trailingIcon = {
-                IconButton(onClick = {
-                    if (text.isNotEmpty())
-                        onTextChange("")//при первом нажатии удаляем текст
-                    else
-                        onClosedClicked()
-                }) {
+                IconButton(
+                    onClick = {
+                        if (text.isNotEmpty())
+                            onTextChange("")//при первом нажатии удаляем текст
+                        else
+                            onClosedClicked()
+                    }) {
                     Icon(
+
                         imageVector = Icons.Default.Close,
                         contentDescription = stringResource(id = R.string.close_icon),
                         tint = MaterialTheme.colors.topAppBarContentColor
@@ -243,5 +232,9 @@ fun SearchAppBar(
                 backgroundColor = Color.Transparent
             )
         )
+    }
+    DisposableEffect(Unit) {
+        focusRequester.requestFocus()
+        onDispose { }
     }
 }

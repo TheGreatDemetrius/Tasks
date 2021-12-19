@@ -17,7 +17,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
@@ -27,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import ru.simple.tasks.ui.theme.PRIORITY_DROP_DOWN_HEIGHT
 import ru.simple.tasks.ui.theme.PRIORITY_INDICATOR_SIZE
 import ru.simple.tasks.R
+import ru.simple.tasks.ui.theme.NonePriorityColor
 
 @Composable
 fun PriorityDropDown(
@@ -39,11 +39,9 @@ fun PriorityDropDown(
     val angle: Float by animateFloatAsState(
         targetValue = if (expended) 180f else 0f
     )
-
     var parentSize by remember {
         mutableStateOf(IntSize.Zero)
     }
-
     Row(modifier = Modifier
         .onGloballyPositioned {
             parentSize = it.size
@@ -64,8 +62,7 @@ fun PriorityDropDown(
             modifier = Modifier
                 .size(PRIORITY_INDICATOR_SIZE)
                 .weight(1f)
-        )
-        {
+        ) {
             drawCircle(color = priority.color)
         }
         Text(
@@ -73,15 +70,14 @@ fun PriorityDropDown(
             text = priority.name,
             style = MaterialTheme.typography.subtitle2
         )
-        IconButton(
-            modifier = Modifier
-                .alpha(ContentAlpha.medium)
-                .rotate(angle)
-                .weight(1.5f),
-            onClick = { expended = true }) {
+        IconButton(onClick = { expended = true }) {
             Icon(
+                modifier = Modifier
+                    .rotate(angle)
+                    .weight(1.5f),
                 imageVector = Icons.Filled.ArrowDropDown,
-                contentDescription = stringResource(id = R.string.drop_down_arrow_icon)
+                contentDescription = stringResource(id = R.string.drop_down_arrow_icon),
+                tint = NonePriorityColor
             )
         }
         DropdownMenu(
