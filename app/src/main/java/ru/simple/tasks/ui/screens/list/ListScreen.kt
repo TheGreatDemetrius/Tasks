@@ -88,7 +88,7 @@ fun ListFab(onFabClicked: (taskId: Int) -> Unit) {
     }, backgroundColor = MaterialTheme.colors.fabBackgroundColor) {
         Icon(
             imageVector = Icons.Filled.Add,
-            contentDescription = stringResource(id = R.string.add_button),
+            contentDescription = stringResource(id = R.string.add_icon),
             tint = Color.White
         )
     }
@@ -103,17 +103,17 @@ fun ShowSnackBar(
     onUndoClicked: (Action) -> Unit
 ) {
     val scope = rememberCoroutineScope()
+    val deleteMessage = stringResource(id = R.string.delete, taskTitle)
     val deleteAllMessage = stringResource(id = R.string.delete_all)
-    val deleteLabel = stringResource(id = R.string.delete)
     val undoLabel = stringResource(id = R.string.undo)
     val okLabel = stringResource(id = R.string.ok)
     LaunchedEffect(key1 = action) {
-        if (action != Action.NO_ACTION) {//вызываем SnackBar после нажатия любого действия, кроме NO_ACTION
+        if (action == Action.DELETE_ALL || action == Action.DELETE) {
             scope.launch {
                 val snackBarResult =//snackBarResult проверяет нажали ли на actionLabel
                     scaffoldState.snackbarHostState.showSnackbar(
-                        message = if (action == Action.DELETE_ALL) deleteAllMessage else "${action.name}: $taskTitle",
-                        actionLabel = if (action.name == deleteLabel) undoLabel else okLabel
+                        message = if (action == Action.DELETE_ALL) deleteAllMessage else deleteMessage,
+                        actionLabel = if (action == Action.DELETE_ALL) okLabel else undoLabel
                     )
                 undoDeletedTask(
                     action = action,
@@ -121,8 +121,9 @@ fun ShowSnackBar(
                     onUndoClicked = onUndoClicked
                 )
             }
-            onComplete(Action.NO_ACTION)
         }
+        if (action != Action.NO_ACTION)
+            onComplete(Action.NO_ACTION)
     }
 }
 

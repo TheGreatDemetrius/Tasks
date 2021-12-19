@@ -1,0 +1,29 @@
+<resources>
+    <string name="add_icon">Значок добавления</string>
+    <string name="there_are_no_tasks">Задач нет</string>
+    <string name="add_task">Добавить задачу</string>
+    <string name="tasks">Задачи</string>
+    <string name="back_arrow_icon">Значок назад</string>
+    <string name="close_icon">Значок закрытия</string>
+    <string name="delete_all">Все задачи удалены.</string>
+    <string name="delete_all_action">Удалить всё</string>
+    <string name="delete_all_task">Удалить все задачи?</string>
+    <string name="delete_all_task_confirmation">Вы уверены, что хотите навсегда удалить все задачи?</string>
+    <string name="delete_icon">Значок удаления</string>
+    <string name="delete_task">Удалить \'%1$s\'?</string>
+    <string name="delete_task_confirmation">Вы уверены, что хотите удалить \'%1$s\'?</string>
+    <string name="description">Описание</string>
+    <string name="drop_down_arrow_icon">Значок раскрывающегося списка</string>
+    <string name="enter_title">Введите заголовок.</string>
+    <string name="no">НЕТ</string>
+    <string name="ok">ОК</string>
+    <string name="search">Поиск</string>
+    <string name="search_icon">Значок поиска</string>
+    <string name="search_task_icon">Значок поиска задачи</string>
+    <string name="sort_task_icon">Значок сортировки задачи</string>
+    <string name="title">Заголовок</string>
+    <string name="undo">ОТМЕНИТЬ</string>
+    <string name="update_icon">Значок обновления</string>
+    <string name="yes">ДА</string>
+    <string name="delete">Задача \"%1$s\" удалена.</string>
+</resources>

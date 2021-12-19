@@ -2,7 +2,6 @@ package ru.simple.tasks.ui.screens.list
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -74,7 +73,7 @@ fun DefaultListAppBar(
     TopAppBar(
         title = {
             Text(
-                text = stringResource(id = R.string.app_name),
+                text = stringResource(id = R.string.tasks),
                 color = MaterialTheme.colors.topAppBarContentColor
             )
         },
@@ -119,7 +118,7 @@ fun SearchAction(
     IconButton(onClick = { onSearchClicked() }) {
         Icon(
             imageVector = Icons.Filled.Search,
-            contentDescription = stringResource(id = R.string.search_task),
+            contentDescription = stringResource(id = R.string.search_task_icon),
             tint = MaterialTheme.colors.topAppBarContentColor
         )
     }
@@ -134,8 +133,8 @@ fun SortAction(
     }
     IconButton(onClick = { expended = true }) {
         Icon(
-            painter = painterResource(id = R.drawable.ic_filter_list),
-            contentDescription = stringResource(id = R.string.sort_tasks),
+            painter = painterResource(id = R.drawable.ic_sort_tasks),
+            contentDescription = stringResource(id = R.string.sort_task_icon),
             tint = MaterialTheme.colors.topAppBarContentColor
         )
         DropdownMenu(expanded = expended, onDismissRequest = { expended = false }) {
@@ -182,6 +181,7 @@ fun SearchAppBar(
             value = text,
             onValueChange = {
                 onTextChange(it)//возвращаем строку соответствующую тексту введенному в данное текстовое поле
+                onSearchClicked(it)
             },
             placeholder = {
                 Text(
@@ -219,9 +219,6 @@ fun SearchAppBar(
             },
             keyboardOptions = KeyboardOptions(
                 imeAction = ImeAction.Search//установили на калавиатуру стандартную иконку поиска
-            ),
-            keyboardActions = KeyboardActions(
-                onSearch = { onSearchClicked(text) }
             ),
             colors = TextFieldDefaults.textFieldColors(
                 cursorColor = MaterialTheme.colors.topAppBarContentColor,//устанавливаем цвет курсора

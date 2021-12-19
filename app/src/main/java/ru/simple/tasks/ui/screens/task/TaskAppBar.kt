@@ -60,7 +60,7 @@ fun BackAction(//нажали вернуться назад
     IconButton(onClick = { onBackClicked(Action.NO_ACTION) }) {
         Icon(
             imageVector = Icons.Filled.ArrowBack,
-            contentDescription = stringResource(id = R.string.back_arrow),
+            contentDescription = stringResource(id = R.string.back_arrow_icon),
             tint = MaterialTheme.colors.topAppBarContentColor
         )
     }
@@ -73,12 +73,14 @@ fun ExistingTaskAppBar(//TaskAppBar для существующей задачи
 ) {
     TopAppBar(
         navigationIcon = {
-            CloseAction(onClosedClicked = navigateToListScreen)
+            BackAction(onBackClicked = navigateToListScreen)
         },
         title = {
             Text(
                 text = selectedTask.title,
-                color = MaterialTheme.colors.topAppBarContentColor
+                color = MaterialTheme.colors.topAppBarContentColor,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
         },
         backgroundColor = MaterialTheme.colors.topAppBarBackgroundColor,
@@ -89,20 +91,6 @@ fun ExistingTaskAppBar(//TaskAppBar для существующей задачи
             )
         }
     )
-}
-
-@Composable
-fun CloseAction(//нажали закрыть задачу
-    onClosedClicked: (Action) -> Unit
-) {
-    IconButton(onClick = { onClosedClicked(Action.NO_ACTION) }) {
-        Icon(
-
-            imageVector = Icons.Filled.ArrowBack,
-            contentDescription = stringResource(id = R.string.back_arrow),
-            tint = MaterialTheme.colors.topAppBarContentColor
-        )
-    }
 }
 
 @Composable

@@ -55,7 +55,7 @@ fun SplashScreen(
                 .alpha(alpha = fadeIn)
                 .alpha(alpha = fadeOut),
             painter = painterResource(id = R.drawable.ic_logo),
-            contentDescription = stringResource(id = R.string.app_name)
+            contentDescription = stringResource(id = R.string.tasks)
         )
     }
 }
