@@ -1,7 +1,7 @@
 <resources>
-    <string name="add_icon">Значок добавления</string>
+    <string name="create_icon">Значок создания</string>
     <string name="there_are_no_tasks">Задач нет</string>
-    <string name="add_task">Добавить задачу</string>
+    <string name="create_task">Создание задачи</string>
     <string name="tasks">Задачи</string>
     <string name="back_arrow_icon">Значок назад</string>
     <string name="close_icon">Значок закрытия</string>
@@ -10,8 +10,8 @@
     <string name="delete_all_task">Удалить все задачи?</string>
     <string name="delete_all_task_confirmation">Вы уверены, что хотите навсегда удалить все задачи?</string>
     <string name="delete_icon">Значок удаления</string>
-    <string name="delete_task">Удалить \'%1$s\'?</string>
-    <string name="delete_task_confirmation">Вы уверены, что хотите удалить \'%1$s\'?</string>
+    <string name="delete_task">Удалить \"%1$s\"?</string>
+    <string name="delete_task_confirmation">Вы уверены, что хотите удалить \"%1$s\"?</string>
     <string name="description">Описание</string>
     <string name="drop_down_arrow_icon">Значок раскрывающегося списка</string>
     <string name="enter_title">Введите заголовок.</string>
@@ -26,4 +26,9 @@
     <string name="update_icon">Значок обновления</string>
     <string name="yes">ДА</string>
     <string name="delete">Задача \"%1$s\" удалена.</string>
+    <string name="low">НИЗКИЙ</string>
+    <string name="medium">СРЕДНИЙ</string>
+    <string name="high">ВЫСОКИЙ</string>
+    <string name="none">НЕЙТРАЛЬНЫЙ</string>
+    <string name="no_tasks_icon">Значок отсутствия задач</string>
 </resources>

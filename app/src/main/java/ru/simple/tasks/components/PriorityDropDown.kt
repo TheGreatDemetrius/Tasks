@@ -67,7 +67,11 @@ fun PriorityDropDown(
         }
         Text(
             modifier = Modifier.weight(8f),
-            text = priority.name,
+            text = when (priority) {
+                Priority.HIGH -> stringResource(id = R.string.high)
+                Priority.MEDIUM -> stringResource(id = R.string.medium)
+                else -> stringResource(id = R.string.low)
+            },
             style = MaterialTheme.typography.subtitle2
         )
         IconButton(onClick = { expended = true }) {

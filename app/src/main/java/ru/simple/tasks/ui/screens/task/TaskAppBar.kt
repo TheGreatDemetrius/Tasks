@@ -40,7 +40,7 @@ fun TaskItemAppBar(
         },
         title = {
             Text(
-                text = stringResource(id = R.string.add_task),
+                text = stringResource(id = R.string.create_task),
                 color = MaterialTheme.colors.topAppBarContentColor,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
@@ -149,7 +149,7 @@ fun AddAction(//нажали добавить задачу
     IconButton(onClick = { onAddClicked(Action.ADD) }) {
         Icon(
             imageVector = Icons.Filled.Check,
-            contentDescription = stringResource(id = R.string.add_task),
+            contentDescription = stringResource(id = R.string.create_task),
             tint = MaterialTheme.colors.topAppBarContentColor
         )
     }

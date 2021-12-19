@@ -1,7 +1,7 @@
 <resources>
-    <string name="add_icon">Add button</string>
+    <string name="create_icon">Create icon</string>
     <string name="there_are_no_tasks">There are no tasks</string>
-    <string name="add_task">Add task</string>
+    <string name="create_task">Create task</string>
     <string name="tasks">Tasks</string>
     <string name="back_arrow_icon">Back arrow</string>
     <string name="close_icon">Close icon</string>
@@ -26,4 +26,9 @@
     <string name="update_icon">Update icon</string>
     <string name="yes">YES</string>
     <string name="delete">The task \"%1$s\" has been deleted.</string>
+    <string name="low">LOW</string>
+    <string name="medium">MEDIUM</string>
+    <string name="high">HIGH</string>
+    <string name="none">NONE</string>
+    <string name="no_tasks_icon">No tasks icon</string>
 </resources>

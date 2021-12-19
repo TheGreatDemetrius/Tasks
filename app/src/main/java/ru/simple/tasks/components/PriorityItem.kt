@@ -8,6 +8,8 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import ru.simple.tasks.R
 import ru.simple.tasks.data.models.Priority
 import ru.simple.tasks.ui.theme.LARGE_PADDING
 import ru.simple.tasks.ui.theme.PRIORITY_INDICATOR_SIZE
@@ -21,7 +23,11 @@ fun PriorityItem(priority: Priority) {
         }
         Text(
             modifier = Modifier.padding(start = LARGE_PADDING),
-            text = priority.name,
+            text = when (priority) {
+                Priority.LOW -> stringResource(id = R.string.low)
+                Priority.HIGH -> stringResource(id = R.string.high)
+                else -> stringResource(id = R.string.none)
+            },
             style = Typography.subtitle2
         )
     }

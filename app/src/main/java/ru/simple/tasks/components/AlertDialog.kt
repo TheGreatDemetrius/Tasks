@@ -27,7 +27,6 @@ fun AlertDialog(
                 Text(
                     text = message,
                     fontSize = MaterialTheme.typography.subtitle1.fontSize,
-                    //textAlign = TextAlign.Justify
                 )
             },
             confirmButton = {

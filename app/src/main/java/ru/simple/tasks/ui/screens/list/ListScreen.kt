@@ -88,7 +88,7 @@ fun ListFab(onFabClicked: (taskId: Int) -> Unit) {
     }, backgroundColor = MaterialTheme.colors.fabBackgroundColor) {
         Icon(
             imageVector = Icons.Filled.Add,
-            contentDescription = stringResource(id = R.string.add_icon),
+            contentDescription = stringResource(id = R.string.create_icon),
             tint = Color.White
         )
     }
