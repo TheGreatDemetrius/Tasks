@@ -24,8 +24,9 @@ fun PriorityItem(priority: Priority) {
         Text(
             modifier = Modifier.padding(start = LARGE_PADDING),
             text = when (priority) {
-                Priority.LOW -> stringResource(id = R.string.low)
                 Priority.HIGH -> stringResource(id = R.string.high)
+                Priority.MEDIUM -> stringResource(id = R.string.medium)
+                Priority.LOW -> stringResource(id = R.string.low)
                 else -> stringResource(id = R.string.none)
             },
             style = Typography.subtitle2

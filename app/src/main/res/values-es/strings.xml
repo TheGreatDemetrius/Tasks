@@ -1,0 +1,33 @@
+<resources>
+    <string name="all_tasks_have_been_deleted">Se han eliminado todas las tareas.</string>
+    <string name="back_icon">Icono de regreso</string>
+    <string name="close_icon">Cerrar icono</string>
+    <string name="create_icon">Crear icono</string>
+    <string name="delete_all_icon">Eliminar todo el icono</string>
+    <string name="delete_all_tasks">¿Eliminar todas las tareas?</string>
+    <string name="delete_icon">Eliminar icono</string>
+    <string name="delete_task">¿Eliminar la tarea \"%1$s\"?</string>
+    <string name="description">Descripción</string>
+    <string name="drop_down_icon">Icono de flecha desplegable</string>
+    <string name="enter_title">Ingrese un título.</string>
+    <string name="high">ALTO</string>
+    <string name="low">BAJO</string>
+    <string name="medium">MEDIO</string>
+    <string name="new_task">Nueva tarea</string>
+    <string name="no">NO</string>
+    <string name="no_tasks_icon">Sin icono de tareas</string>
+    <string name="none">NINGUNA</string>
+    <string name="ok">OK</string>
+    <string name="search">Búsqueda</string>
+    <string name="search_icon">Icono de búsqueda</string>
+    <string name="sort_icon">Ordenar icono</string>
+    <string name="task_has_been_deleted">Se ha eliminado la tarea \"%1$s\".</string>
+    <string name="tasks">Tareas</string>
+    <string name="there_are_no_tasks">No hay tareas</string>
+    <string name="title">Título</string>
+    <string name="undo">DESHACER</string>
+    <string name="update_icon">Icono de actualización</string>
+    <string name="yes">SÍ</string>
+    <string name="you_want_to_delete_task">¿Está seguro de que desea eliminar la tarea \"%1$s\"?</string>
+    <string name="you_want_to_permanently_delete_all_tasks">¿Está seguro de que desea eliminar todas las tareas de forma permanente?</string>
+</resources>

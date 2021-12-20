@@ -98,8 +98,8 @@ fun ListAppBarActions(
         mutableStateOf(false)
     }
     AlertDialog(
-        title = stringResource(id = R.string.delete_all_task),
-        message = stringResource(id = R.string.delete_all_task_confirmation),
+        title = stringResource(id = R.string.delete_all_tasks),
+        message = stringResource(id = R.string.you_want_to_permanently_delete_all_tasks),
         openDialog = openDialog,
         closeDialog = { openDialog = false },
         confirm = {
@@ -118,7 +118,7 @@ fun SearchAction(
     IconButton(onClick = { onSearchClicked() }) {
         Icon(
             imageVector = Icons.Filled.Search,
-            contentDescription = stringResource(id = R.string.search_task_icon),
+            contentDescription = stringResource(id = R.string.search_icon),
             tint = MaterialTheme.colors.topAppBarContentColor
         )
     }
@@ -134,7 +134,7 @@ fun SortAction(
     IconButton(onClick = { expended = true }) {
         Icon(
             painter = painterResource(id = R.drawable.ic_sort_tasks),
-            contentDescription = stringResource(id = R.string.sort_task_icon),
+            contentDescription = stringResource(id = R.string.sort_icon),
             tint = MaterialTheme.colors.topAppBarContentColor
         )
         DropdownMenu(expanded = expended, onDismissRequest = { expended = false }) {
@@ -155,7 +155,7 @@ fun DeleteAllAction(
     IconButton(onClick = { onDeleteAllConfirmed() }) {
         Icon(
             painter = painterResource(id = R.drawable.ic_delete_all),
-            contentDescription = stringResource(id = R.string.delete_all_action),
+            contentDescription = stringResource(id = R.string.delete_all_icon),
             tint = MaterialTheme.colors.topAppBarContentColor
         )
     }

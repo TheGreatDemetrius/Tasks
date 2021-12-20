@@ -180,7 +180,6 @@ fun RedBackground(degrees: Float) {//фон задачи при удалении
     }
 }
 
-
 @ExperimentalMaterialApi
 @Composable
 fun TaskItem(

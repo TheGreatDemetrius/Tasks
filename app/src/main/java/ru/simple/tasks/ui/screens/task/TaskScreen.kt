@@ -27,7 +27,7 @@ fun TaskScreen(
     BackHandler {
         navigateToListScreen(Action.NO_ACTION)
     }
-    
+
     Scaffold(
         topBar = {
             TaskAppBar(
@@ -53,7 +53,7 @@ fun TaskScreen(
                 },
                 description = description,
                 onDescriptionChange = {
-                    sharedViewModel.description.value = it
+                    sharedViewModel.updateDescription(it)
                 },
                 priority = priority,
                 onPrioritySelected = {

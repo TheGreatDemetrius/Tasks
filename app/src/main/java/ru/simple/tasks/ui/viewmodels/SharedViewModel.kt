@@ -13,6 +13,7 @@ import ru.simple.tasks.data.models.SimpleTask
 import ru.simple.tasks.data.repositories.DataStoreRepository
 import ru.simple.tasks.data.repositories.TaskRepository
 import ru.simple.tasks.util.Action
+import ru.simple.tasks.util.Constants.MAX_DESCRIPTION_LENGTH
 import ru.simple.tasks.util.Constants.MAX_TITLE_LENGTH
 import ru.simple.tasks.util.RequestState
 import ru.simple.tasks.util.SearchAppBarState
@@ -26,7 +27,6 @@ class SharedViewModel @Inject constructor(
 ) : ViewModel() {
 
     val action: MutableState<Action> = mutableStateOf(Action.NO_ACTION)
-
     val id: MutableState<Int> = mutableStateOf(0)
     val title: MutableState<String> = mutableStateOf("")
     val description: MutableState<String> = mutableStateOf("")
@@ -206,5 +206,10 @@ class SharedViewModel @Inject constructor(
     fun updateTitle(upTitle: String) {
         if (upTitle.length < MAX_TITLE_LENGTH)//проверяем количество символов в заголовоке
             title.value = upTitle
+    }
+
+    fun updateDescription(upDescription: String) {
+        if (upDescription.length < MAX_DESCRIPTION_LENGTH)
+            description.value = upDescription
     }
 }

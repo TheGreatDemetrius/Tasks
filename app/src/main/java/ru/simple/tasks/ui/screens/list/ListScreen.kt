@@ -103,8 +103,8 @@ fun ShowSnackBar(
     onUndoClicked: (Action) -> Unit
 ) {
     val scope = rememberCoroutineScope()
-    val deleteMessage = stringResource(id = R.string.delete, taskTitle)
-    val deleteAllMessage = stringResource(id = R.string.delete_all)
+    val deleteMessage = stringResource(id = R.string.task_has_been_deleted, taskTitle)
+    val deleteAllMessage = stringResource(id = R.string.all_tasks_have_been_deleted)
     val undoLabel = stringResource(id = R.string.undo)
     val okLabel = stringResource(id = R.string.ok)
     LaunchedEffect(key1 = action) {

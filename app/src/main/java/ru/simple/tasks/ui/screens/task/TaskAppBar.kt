@@ -40,7 +40,7 @@ fun TaskItemAppBar(
         },
         title = {
             Text(
-                text = stringResource(id = R.string.create_task),
+                text = stringResource(id = R.string.new_task),
                 color = MaterialTheme.colors.topAppBarContentColor,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
@@ -60,7 +60,7 @@ fun BackAction(//нажали вернуться назад
     IconButton(onClick = { onBackClicked(Action.NO_ACTION) }) {
         Icon(
             imageVector = Icons.Filled.ArrowBack,
-            contentDescription = stringResource(id = R.string.back_arrow_icon),
+            contentDescription = stringResource(id = R.string.back_icon),
             tint = MaterialTheme.colors.topAppBarContentColor
         )
     }
@@ -101,7 +101,7 @@ fun ExistingTaskAppBarActions(
     var openDialog by remember { mutableStateOf(false) }
     AlertDialog(
         title = stringResource(id = R.string.delete_task, selectedTask.title),
-        message = stringResource(id = R.string.delete_task_confirmation, selectedTask.title),
+        message = stringResource(id = R.string.you_want_to_delete_task, selectedTask.title),
         openDialog = openDialog,
         closeDialog = {
             openDialog = false
@@ -149,7 +149,7 @@ fun AddAction(//нажали добавить задачу
     IconButton(onClick = { onAddClicked(Action.ADD) }) {
         Icon(
             imageVector = Icons.Filled.Check,
-            contentDescription = stringResource(id = R.string.create_task),
+            contentDescription = stringResource(id = R.string.create_icon),
             tint = MaterialTheme.colors.topAppBarContentColor
         )
     }

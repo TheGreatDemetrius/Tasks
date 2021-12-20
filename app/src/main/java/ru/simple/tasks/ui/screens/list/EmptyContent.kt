@@ -27,7 +27,7 @@ fun EmptyContent() {
     ) {
         Icon(
             modifier = Modifier.size(LOGO_SIZE),
-            painter = painterResource(id = R.drawable.ic_logo_round),
+            painter = painterResource(id = R.drawable.ic_no_tasks),
             contentDescription = stringResource(id = R.string.no_tasks_icon),
             tint = MaterialTheme.colors.noTasksColor
         )

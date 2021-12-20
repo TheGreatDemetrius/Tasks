@@ -1,0 +1,33 @@
+<resources>
+    <string name="all_tasks_have_been_deleted">已删除所有任务.</string>
+    <string name="back_icon">返回图标.</string>
+    <string name="close_icon">关闭图标</string>
+    <string name="create_icon">创建图标</string>
+    <string name="delete_all_icon">删除所有图标</string>
+    <string name="delete_all_tasks">删除所有任务?</string>
+    <string name="delete_icon">删除图标</string>
+    <string name="delete_task">删除任务\"%1$s\"?</string>
+    <string name="description">描述</string>
+    <string name="drop_down_icon">下拉箭头图标</string>
+    <string name="enter_title">输入标题.</string>
+    <string name="high">高的</string>
+    <string name="low">低的</string>
+    <string name="medium">中等的</string>
+    <string name="new_task">新任务</string>
+    <string name="no">不</string>
+    <string name="no_tasks_icon">没有任务图标</string>
+    <string name="none">没有任何</string>
+    <string name="ok">行</string>
+    <string name="search">搜索</string>
+    <string name="search_icon">搜索图标</string>
+    <string name="sort_icon">排序图标</string>
+    <string name="task_has_been_deleted">任务\"%1$s\"已被删除.</string>
+    <string name="tasks">任务</string>
+    <string name="there_are_no_tasks">没有任务</string>
+    <string name="title">标题</string>
+    <string name="undo">撤销</string>
+    <string name="update_icon">更新图标</string>
+    <string name="yes">是的</string>
+    <string name="you_want_to_delete_task">您确定要删除任务\"%1$s\"吗?</string>
+    <string name="you_want_to_permanently_delete_all_tasks">您确定要永久删除所有任务吗?</string>
+</resources>

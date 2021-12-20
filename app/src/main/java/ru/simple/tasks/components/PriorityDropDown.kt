@@ -22,10 +22,10 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntSize
-import androidx.compose.ui.unit.dp
 import ru.simple.tasks.ui.theme.PRIORITY_DROP_DOWN_HEIGHT
 import ru.simple.tasks.ui.theme.PRIORITY_INDICATOR_SIZE
 import ru.simple.tasks.R
+import ru.simple.tasks.ui.theme.BORDER_WIDTH
 import ru.simple.tasks.ui.theme.NonePriorityColor
 
 @Composable
@@ -52,7 +52,7 @@ fun PriorityDropDown(
             expended = true
         }
         .border(
-            width = 1.dp,
+            width = BORDER_WIDTH,
             color = MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.disabled),
             shape = MaterialTheme.shapes.small
         ),
@@ -80,7 +80,7 @@ fun PriorityDropDown(
                     .rotate(angle)
                     .weight(1.5f),
                 imageVector = Icons.Filled.ArrowDropDown,
-                contentDescription = stringResource(id = R.string.drop_down_arrow_icon),
+                contentDescription = stringResource(id = R.string.drop_down_icon),
                 tint = NonePriorityColor
             )
         }

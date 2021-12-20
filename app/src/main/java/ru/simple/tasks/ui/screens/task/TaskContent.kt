@@ -28,17 +28,16 @@ fun TaskContent(
             .background(color = MaterialTheme.colors.background)
     ) {
         OutlinedTextField(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth(),
+            //.padding(bottom = MEDIUM_PADDING),
             value = title,
             onValueChange = { onTitleChange(it) },
             textStyle = MaterialTheme.typography.body1,
             singleLine = true,
             label = { Text(text = stringResource(id = R.string.title)) }
         )
-        Divider(
-            modifier = Modifier.height(MEDIUM_PADDING),
-            color = MaterialTheme.colors.background
-        )
+        Spacer(modifier = Modifier.height(MEDIUM_PADDING))
         PriorityDropDown(
             priority = priority,
             onPrioritySelected = onPrioritySelected

@@ -1,0 +1,33 @@
+<resources>
+    <string name="all_tasks_have_been_deleted">सभी कार्य हटा दिए गए हैं।</string>
+    <string name="back_icon">बैक आइकन</string>
+    <string name="close_icon">आइकन बंद करें</string>
+    <string name="create_icon">आइकन बनाएं</string>
+    <string name="delete_all_icon">सभी आइकन हटाएं</string>
+    <string name="delete_all_tasks">सभी कार्य हटाएं?</string>
+    <string name="delete_icon">आइकन हटाएं</string>
+    <string name="delete_task">कार्य \"%1$s\" हटाएं?</string>
+    <string name="description">विवरण</string>
+    <string name="drop_down_icon">ड्रॉप-डाउन तीर आइकन</string>
+    <string name="enter_title">एक शीर्षक दर्ज करें।</string>
+    <string name="high">उच्च</string>
+    <string name="low">कम</string>
+    <string name="medium">मध्यम</string>
+    <string name="new_task">नया कार्य</string>
+    <string name="no">नहीं</string>
+    <string name="no_tasks_icon">कोई कार्य नहीं आइकन</string>
+    <string name="none">कोई नहीं</string>
+    <string name="ok">ठीक है</string>
+    <string name="search">खोज</string>
+    <string name="search_icon">खोज आइकन</string>
+    <string name="sort_icon">क्रमबद्ध करें आइकन</string>
+    <string name="task_has_been_deleted">कार्य \"%1$s\" हटा दिया गया है।</string>
+    <string name="tasks">कार्य</string>
+    <string name="there_are_no_tasks">कोई कार्य नहीं हैं</string>
+    <string name="title">शीर्षक</string>
+    <string name="undo">पूर्ववत</string>
+    <string name="update_icon">अपडेट आइकन</string>
+    <string name="yes">हां</string>
+    <string name="you_want_to_delete_task">क्या आप वाकई \"%1$s\" कार्य हटाना चाहते हैं ?</string>
+    <string name="you_want_to_permanently_delete_all_tasks">क्या आप वाकई सभी कार्यों को स्थायी रूप से हटाना चाहते हैं?</string>
+</resources>
