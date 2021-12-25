@@ -40,4 +40,4 @@ If you have questions or want to add features, please [contact the developer](ma
 
 ## License
 
-**Game Cities** licensed under the [MIT license](LICENSE).
+**Tasks** licensed under the [MIT license](LICENSE).
