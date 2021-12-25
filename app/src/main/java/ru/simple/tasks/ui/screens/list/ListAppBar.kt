@@ -18,6 +18,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import ru.simple.tasks.components.PriorityItem
 import ru.simple.tasks.ui.theme.*
 import ru.simple.tasks.ui.viewmodels.SharedViewModel
@@ -218,6 +219,7 @@ fun SearchAppBar(
                 }
             },
             keyboardOptions = KeyboardOptions(
+                capitalization = KeyboardCapitalization.Sentences,//установили ввод с заглавной буквы
                 imeAction = ImeAction.Search//установили на калавиатуру стандартную иконку поиска
             ),
             colors = TextFieldDefaults.textFieldColors(
